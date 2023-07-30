@@ -1,5 +1,4 @@
 # Autor: giovanels
-# TODO: mudar de snake_case para PascalCase
 
 class Veiculo:
     def __init__(self, modelo, marca, ano, cor, preco, placa, km_rodado):
@@ -12,44 +11,44 @@ class Veiculo:
         self._km_rodado = km_rodado
 
     #métodos setters e getters
-    def get_modelo(self):
+    def getModelo(self):
         return self._modelo
-
-    def get_marca(self):
-        return self._marca
-
-    def get_ano(self):
-        return self._ano
-
-    def get_cor(self):
-        return self._cor
-
-    def get_preco(self):
-        return self._preco
-
-    def get_placa(self):
-        return self._placa
-
-    def get_km_rodado(self):
-        return self._km_rodado
-
-    def set_modelo(self, modelo):
+    
+    def setModelo(self, modelo):
         self._modelo = modelo
 
-    def set_marca(self, marca):
+    def getMarca(self):
+        return self._marca
+    
+    def setMarca(self, marca):
         self._marca = marca
 
-    def set_ano(self, ano):
+    def getAno(self):
+       return self._ano
+    
+    def setAno(self, ano):
         self._ano = ano
 
-    def set_cor(self, cor):
+    def getCor(self):
+        return self._cor
+     
+    def setCor(self, cor):
         self._cor = cor
 
-    def set_preco(self, preco):
+    def getPreco(self):
+        return self._preco
+    
+    def setPreco(self, preco):
         self._preco = preco
 
-    def set_placa(self, placa):
+    def getPlaca(self):
+        return self._placa
+    
+    def setPlaca(self, placa):
         self._placa = placa
 
-    def set_km_rodado(self, km_rodado):
+    def getKmRodado(self):
+        return self._km_rodado
+    
+    def setKmRodado(self, km_rodado):
         self._km_rodado = km_rodado
