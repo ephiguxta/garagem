@@ -1,34 +1,55 @@
-class PF extends Pessoa
- def __init__(self, cpf, rg, dataNasc, sexo):
-     self._cpf = cpf
-     self._rg = rg
-     self._dataNasc = dataNasc
-     self._sexo = sexo
+class Pessoa
+    def __init__(self, nome, endereco, numero, bairro, cep, telefone, email):
+        self._nome = nome
+        self._endereco = endereco
+        self._numero = numero
+        self._bairro = bairro
+        self._cep = cep
+        self._telefone = telefone
+        self._email = email
 
- #métodos setters e getters
-def getCpf(self):
-    return self._cpf
-    
-def setCpf(self, cpf):
-    self._cpf = cpf
+#metodos getters e setters
+    def getNome(self):
+        return self._nome
 
-def getRg(self):
-    return self._rg
-    
-def setRg(self, rg):
-    self._rg = rg
-    
-def getDataNasc(self):
-    return self._dataNasc
+    def setNome(self, nome):
+        self._nome = nome
 
-def setDataNasc(self, dataNasc)
-    self._dataNasc = dataNasc
+    def getEndereco(self):
+        return self._endereco
 
-def getSexo(self):
-    return self._sexo
+    def setEndereco(self, endereco):
+        self._endereco = endereco
 
-def setSexo(self, sexo):
-    self._sexo = sexo
+    def getNumero(self):
+        return self._numero
 
- 
-    
+    def setNumero(self, numero):
+        self._numero = numero
+
+    def getBairro(self):
+        return self._bairro
+
+    def setBairro(self, bairro):
+        self._bairro = bairro
+
+    def getCep(self):
+        return self._cep
+
+    def setCep(self, cep):
+        self._cep = cep
+
+    def getTelefone(self):
+        return self._telefone
+
+    def setTelefone(self, telefone):
+        self._telefone = telefone
+
+    def getEmail(self):
+        return self._email
+
+    def setEmail(self, email)
+        self._email = email
+
+    def pagar(self, preco):
+        pass
