@@ -1,4 +1,4 @@
-class Pessoa
+class Pessoa:
     def __init__(self, nome, endereco, numero, bairro, cep, telefone, email):
         self._nome = nome
         self._endereco = endereco
@@ -48,7 +48,7 @@ class Pessoa
     def getEmail(self):
         return self._email
 
-    def setEmail(self, email)
+    def setEmail(self, email):
         self._email = email
 
     def pagar(self, preco):
