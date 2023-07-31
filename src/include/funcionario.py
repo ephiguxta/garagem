@@ -14,7 +14,7 @@ class Funcionario(PessoaFisica):
     def getSalario(self):
         return self._salario
 
-    def setSalario(self, salario)
+    def setSalario(self, salario):
         self._salario = salario
 
     def vender(self, placa):
