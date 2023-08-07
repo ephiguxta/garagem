@@ -1,4 +1,9 @@
 class PessoaFisica(Pessoa):
+    '''
+    A instância desse objeto vai servir para a
+    inserção dos dados no banco de dados
+    '''
+
     def __init__(self, nome, endereco, numero, bairro, cep, telefone, email):
         super().__init__(self, cpf, rg, dataNasc, sexo)
         self._cpf = cpf
@@ -6,19 +11,18 @@ class PessoaFisica(Pessoa):
         self._dataNasc = dataNasc
         self._sexo = sexo
 
- #métodos setters e getters
     def getCpf(self):
         return self._cpf
-    
+
     def setCpf(self, cpf):
         self._cpf = cpf
 
     def getRg(self):
         return self._rg
-    
+
     def setRg(self, rg):
         self._rg = rg
-    
+
     def getDataNasc(self):
         return self._dataNasc
 
@@ -31,5 +35,3 @@ class PessoaFisica(Pessoa):
     def setSexo(self, sexo):
         self._sexo = sexo
 
- 
-    

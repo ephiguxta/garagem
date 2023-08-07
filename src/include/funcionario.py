@@ -1,10 +1,15 @@
 class Funcionario(PessoaFisica):
+    '''
+    Essa classe deve ser instanciada quando houver a
+    necessidade de inserir um novo funcionário ao banco
+    de dados.
+    '''
+
     def __init__(self, nome, endereco, numero, bairro, cep, telefone, email):
         super().__init__(self, cargo, salario)
         self._cargo = cargo
         self._salario = salario
 
-#metodos getters e setters
     def getCargo(self):
         return self._cargo
 
@@ -17,5 +22,8 @@ class Funcionario(PessoaFisica):
     def setSalario(self, salario):
         self._salario = salario
 
+    #FIXME: assim como na classe Pessoa, qual a funcionalidade
+    # desse método?
     def vender(self, placa):
         pass
+

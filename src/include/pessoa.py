@@ -1,4 +1,9 @@
 class Pessoa:
+    '''
+    Serve de base para Pessoa Física/Jurídica,
+    aqui temos os dados básicos do funcionário/comprador
+    '''
+
     def __init__(self, nome, endereco, numero, bairro, cep, telefone, email):
         self._nome = nome
         self._endereco = endereco
@@ -8,7 +13,6 @@ class Pessoa:
         self._telefone = telefone
         self._email = email
 
-#metodos getters e setters
     def getNome(self):
         return self._nome
 
@@ -51,5 +55,6 @@ class Pessoa:
     def setEmail(self, email):
         self._email = email
 
+    # FIXME: qual a funcionalidade desse método?
     def pagar(self, preco):
         pass
