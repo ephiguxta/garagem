@@ -27,6 +27,7 @@ try:
         CREATE TABLE IF NOT EXISTS `Veiculo` (
             `placa` VARCHAR(7) NOT NULL,
             `marca` VARCHAR(15) NOT NULL,
+            `modelo` VARCHAR(15) NOT NULL,
             `ano` DATE NOT NULL,
             `cor` VARCHAR(15) NOT NULL,
             `preco` FLOAT NOT NULL,
@@ -206,5 +207,5 @@ if __name__ == '__main__':
     atualizar_garagem_jython("33.310.386/0001-97", "Nova Razão Social")
 
     # Removendo um registro da tabela Garagem Jython
-    remover_garagem_jython("33.310.386/0001-97")
+    # remover_garagem_jython("33.310.386/0001-97")
 
