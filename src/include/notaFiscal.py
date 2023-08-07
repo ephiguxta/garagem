@@ -1,5 +1,5 @@
 class NotaFiscal:
-    def __init__(self, veiculo, valorPago, cnpj, nomeEmpresa, identificaçaoComprador):
+    def __init__(self, veiculo, valorPago, cnpj, nomeEmpresa, identificacaoComprador):
         self._veiculo = veiculo
         self._valorPago = valorPago
         self._cnpj = cnpj
