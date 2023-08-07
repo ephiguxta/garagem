@@ -3,9 +3,6 @@ from tkinter import *
 
 janela = customtkinter.CTk()
 
-def vcEhGay():
-    print("GAY!")
-
 #Classe tela principal
 class Application():
     def __init__(self):
@@ -42,7 +39,7 @@ class Application():
     #Método com as requisitos funcionais
     def telaOpcoes(self):
         #Trabalhando com a logo
-        img = PhotoImage(file="interface_garagem\logo1.png")
+        img = PhotoImage(file="logo1.png")
         label_img = customtkinter.CTkLabel(master=janela, image=img)
         label_img.place(x=-25, y=30)
 
