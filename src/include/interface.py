@@ -49,16 +49,46 @@ class Application():
 
         #Frame widget
         font = customtkinter.CTkFont(family="Roboto", size=16)
-        botao1 = customtkinter.CTkButton(master=frame, text="Cadastrar usuário", width=300, height=30,  font=("Roboto", 16)).place(x=25, y=60)
+        botao1 = customtkinter.CTkButton(master=frame,
+                                         text="Cadastrar usuário",
+                                         width=300,
+                                         height=30,
+                                         font=("Roboto", 16)
+        ).place(x=25, y=60)
 
-        botao2 = customtkinter.CTkButton(master=frame, text="Pesquisar usuário", width=300, height=30,  font=("Roboto", 16)).place(x=25, y=100)
+        botao2 = customtkinter.CTkButton(master=frame,
+                                         text="Pesquisar usuário",
+                                         width=300,
+                                         height=30,
+                                         font=("Roboto", 16)
+        ).place(x=25, y=100)
 
-        botao3 = customtkinter.CTkButton(master=frame, text="Cadastrar veículo", width=300, height=30,  font=("Roboto", 16)).place(x=25, y=140)
+        botao3 = customtkinter.CTkButton(master=frame,
+                                         text="Cadastrar veículo",
+                                         width=300,
+                                         height=30,
+                                         font=("Roboto", 16)
+        ).place(x=25, y=140)
 
-        botao4 = customtkinter.CTkButton(master=frame, text="Pesquisar veículo", width=300, height=30,  font=("Roboto", 16)).place(x=25, y=180)
+        botao4 = customtkinter.CTkButton(master=frame,
+                                         text="Pesquisar veículo",
+                                         width=300,
+                                         height=30,
+                                         font=("Roboto", 16)
+        ).place(x=25, y=180)
 
-        botao5 = customtkinter.CTkButton(master=frame, text="Histórico de vendas", width=300, height=30,  font=("Roboto", 16)).place(x=25, y=220)
+        botao5 = customtkinter.CTkButton(master=frame,
+                                         text="Histórico de vendas",
+                                         width=300,
+                                         height=30,
+                                         font=("Roboto", 16)
+        ).place(x=25, y=220)
 
-        botao6 = customtkinter.CTkButton(master=frame, text="Realizar venda", width=300, height=30,  font=("Roboto", 16)).place(x=25, y=260)
+        botao6 = customtkinter.CTkButton(master=frame,
+                                         text="Realizar venda",
+                                         width=300,
+                                         height=30,
+                                         font=("Roboto", 16)
+        ).place(x=25, y=260)
 
 Application()
