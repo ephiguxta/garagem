@@ -13,6 +13,12 @@ class Pessoa:
         self._telefone = telefone
         self._email = email
 
+    def getCpf(self):
+        return self._cpf
+
+    def setCpf(self, cpf):
+        self._cpf = cpf
+
     def getNome(self):
         return self._nome
 
