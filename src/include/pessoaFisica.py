@@ -4,10 +4,11 @@ class PessoaFisica(Pessoa):
     inserção dos dados no banco de dados
     '''
 
-    def __init__(self, cpf, nome, endereco, numero, bairro, cep, telefone, email,
-                 rg, dataNasc, sexo):
+    def __init__(self, cpf, nome, endereco, numero, bairro, cep, telefone,
+                 email, rg, dataNasc, sexo):
 
-        super().__init__(self, cpf, nome, endereco, numero, bairro, cep, telefone, email)
+        super().__init__(self, cpf, nome, endereco, numero, bairro, cep,
+                         telefone, email)
 
         self._rg = rg
         self._dataNasc = dataNasc

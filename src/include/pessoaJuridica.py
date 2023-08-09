@@ -1,10 +1,12 @@
 class PessoaJuridica(Pessoa):
-    def __init__(self, nome, endereco, numero, bairro, cep, telefone, email):
-        super().__init__(self, nomeFantasia, cnpj)
-        self._nomeFantasia = nomeFantasia
+    def __init__(self, cpf, nome, endereco, numero, bairro, cep, telefone, email,
+                 nome_empresa, cnpj):
+
+        super().__init__(self, cpf, nome, endereco, numero, bairro, cep,
+                         telefone, email)
+        self._nomeEmpresa= nomeEmpresa
         self._cnpj = cnpj
 
-#metodos getters e setters
     def getNomeFantasia(self):
         return self._nomeFantasia
 

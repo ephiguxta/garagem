@@ -4,7 +4,9 @@ class Pessoa:
     aqui temos os dados básicos do funcionário/comprador
     '''
 
-    def __init__(self, nome, endereco, numero, bairro, cep, telefone, email):
+    def __init__(self, cpf, nome, endereco, numero, bairro, cep, telefone,
+                 email):
+        self._cpf = cpf
         self._nome = nome
         self._endereco = endereco
         self._numero = numero
