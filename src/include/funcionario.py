@@ -5,8 +5,11 @@ class Funcionario(PessoaFisica):
     de dados.
     '''
 
-    def __init__(self, nome, endereco, numero, bairro, cep, telefone, email):
-        super().__init__(self, cargo, salario)
+    def __init__(self, cpf, nome, endereco, numero, bairro, cep, telefone,
+                 email, rg, dataNasc, sexo, cargo, salario):
+
+        super().__init__(self, cpf, nome, endereco, numero, bairro, cep,
+                         telefone, email, rg, dataNasc, sexo):
         self._cargo = cargo
         self._salario = salario
 
