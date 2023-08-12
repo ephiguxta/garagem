@@ -1,6 +1,9 @@
 from tkinter import *
 import customtkinter
 
+import sqlite3
+
+
 janela = customtkinter.CTk()
 
 #Classe tela principal
@@ -39,7 +42,7 @@ class Application():
     #Método com as requisitos funcionais
     def telaOpcoes(self):
         #Trabalhando com a logo
-        img = PhotoImage(file="logo1.png")
+        img = PhotoImage(file="src\include\logo1.png")
         label_img = customtkinter.CTkLabel(master=janela, image=img)
         label_img.place(x=-25, y=30)
 
@@ -488,31 +491,66 @@ class Application():
             #Frame com os títulos
             frameLabelPesquisarFuncionario = customtkinter.CTkFrame(janela, width=350, height=600)
             frameLabelPesquisarFuncionario.pack(side=LEFT)
-            
-            
 
-            label = customtkinter.CTkLabel(master=framePesquisarFuncionario,
+            label = customtkinter.CTkLabel(framePesquisarFuncionario,
                                            text="Pesquisar Funcionário",
                                            ).place(x=25, y=5)
             
             #Titulo
-            labelNomeFunc = customtkinter.CTkLabel(master=frameLabelPesquisarFuncionario,
+            labelNomeFunc = customtkinter.CTkLabel(frameLabelPesquisarFuncionario,
                                            text="Nome: ",
                                            ).place(x=280, y=40)
             
             
             #Entrada de dados
-            nomeFuncPesquisar = customtkinter.CTkEntry(master=framePesquisarFuncionario,
+            nomeFuncPesquisar = customtkinter.CTkEntry(framePesquisarFuncionario,
                                                       width=300,
-                                                      textvariable=nomeFuncPesquisarSave,
+                                                      textvariable = nomeFuncPesquisarSave,
                                                       ).place(x=25, y=40)
-            
 
-            ########################################
-            ###       Insira o código aqui       ###                 
-            ########################################
+            scrollableFuncionarioFrame = customtkinter.CTkScrollableFrame(framePesquisarFuncionario, width=280, height=350)
+            scrollableFuncionarioFrame.place(x=25, y=90)
 
+            def pesquisarFuncionário():
 
+                #Exclui os dados da pesquisa anterior
+                for widget in scrollableFuncionarioFrame.winfo_children():
+                    widget.destroy() 
+                
+                searchTerm = nomeFuncPesquisarSave.get().strip() 
+
+                #Verifica se a pesquisa está vazia
+                if searchTerm:
+                    #Conexão temporária com o banco de dados
+                    conn = sqlite3.connect("bdGaragemJython.db")
+                    cursor = conn.cursor()
+
+                    #Atributos da pesquisa
+                    query = f"SELECT nome, cpfFuncionario FROM funcionario WHERE nome LIKE '%{nomeFuncPesquisarSave.get()}%'"
+                    cursor.execute(query)
+
+                    #Array de resultados
+                    results = cursor.fetchall()
+                    conn.close()
+
+                    #Verifica se existe algum resultado
+                    if  len(results) < 1:
+                            customtkinter.CTkLabel(scrollableFuncionarioFrame, text="Não foi possível encontar.").pack(side="top")
+
+                    #Tratamento e disposição na tela
+                    colors = ["#303030", "#343638"] 
+                    for i, result in enumerate(results):
+                        colorIndex = i % len(colors)
+                        color = colors[colorIndex]
+
+                        customtkinter.CTkLabel(scrollableFuncionarioFrame, 
+                                            text="Nome: " + result[0] + "\nCpf: " + result[1],
+                                            font=("Helvetica", 14),
+                                            height=50,
+                                            width=300,
+                                            anchor=W,
+                                            padx=20,
+                                            bg_color=color).pack(side="top")
 
             #Botão save
             savePesFuncionario = customtkinter.CTkButton(master=framePesquisarFuncionario, 
@@ -521,10 +559,8 @@ class Application():
                                          font=("Roboto", 16),
                                          fg_color="green",
                                          hover_color="#014B05",
-                                         command=printnome
+                                         command=pesquisarFuncionário
                                          ).place(x=25, y=480)
-            
-
             
             
              #Volta para tela inicial
@@ -572,10 +608,50 @@ class Application():
                                                       textvariable=nomePesquisarClienteSave,
                                                       ).place(x=25, y=40)
             
+            scrollableClienteFrame = customtkinter.CTkScrollableFrame(framePesquisarCliente, width=280, height=350)
+            scrollableClienteFrame.place(x=25, y=90)
 
-            ########################################
-            ###       Insira o código aqui       ###                 
-            ########################################
+            def pesquisarCliente():
+
+                #Exclui os dados da pesquisa anterior
+                for widget in scrollableClienteFrame.winfo_children():
+                    widget.destroy() 
+                
+                searchTerm = nomePesquisarClienteSave.get().strip() 
+
+                #Verifica se a pesquisa está vazia
+                if searchTerm:
+
+                    #Conexão temporária com o banco de dados
+                    conn = sqlite3.connect("bdGaragemJython.db")
+                    cursor = conn.cursor()
+
+                    #Atributos da pesquisa
+                    query = f"SELECT nome, cpfPessoaFisica, email FROM PessoaFisica WHERE nome LIKE '%{nomePesquisarClienteSave.get()}%'"
+                    cursor.execute(query)
+
+                    #Array de resultados
+                    results = cursor.fetchall()
+                    conn.close()
+
+                    #Verifica se esxiste resultado
+                    if  len(results) < 1:
+                            customtkinter.CTkLabel(scrollableClienteFrame, text="Não foi possível encontar.").pack(side="top")
+
+                    #Tratamento e disposição na tela
+                    colors = ["#303030", "#343638"] 
+                    for i, result in enumerate(results):
+                        color_index = i % len(colors)
+                        color = colors[color_index]
+
+                        customtkinter.CTkLabel(scrollableClienteFrame, 
+                                            text="Nome: " + result[0] + "\nCpf: " + result[1]+ "\n Email: " + result[2],
+                                            font=("Helvetica", 14),
+                                            height=80,
+                                            width=300,
+                                            anchor=W,
+                                            padx=20,
+                                            bg_color=color).pack(side="top")
 
             
             #Botão save
@@ -585,7 +661,7 @@ class Application():
                                          font=("Roboto", 16),
                                          fg_color="green",
                                          hover_color="#014B05",
-                                         command=printnome
+                                         command=pesquisarCliente
                                          ).place(x=25, y=480)
             
 
