@@ -6,7 +6,7 @@ import sqlite3
 janela = customtkinter.CTk()
 
 # Tela principal
-class Application():
+class Aplicacao():
     def __init__(self):
         self.janela = janela
         self.tema()
@@ -854,4 +854,4 @@ class Application():
                                         command=telaRealizarVenda
                                         ).place(x=25, y=340)
 
-Application()
+Aplicacao()
