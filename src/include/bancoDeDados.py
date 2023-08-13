@@ -21,6 +21,10 @@ class BancoDeDados():
         self.conectado = True
 
     def fecharConexao(self):
+        # TODO:
+        # verifique se a abertura e fechamento constante implica numa
+        # perda de performance considerável.
+        #
         self.conexao.commit()
         self.conexao.close()
         self.conectado = False
@@ -43,6 +47,10 @@ class BancoDeDados():
         if not self.conectado:
             self.conectar()
 
+        # TODO:
+        # todos os comandos direto no BD devem ser validados,
+        # desde o script sql até os dados que serão inseridos.
+        #
         if dados is None:
             res = self.cursor.execute(cmd)
 
@@ -71,7 +79,7 @@ class BancoDeDados():
 
     def contarParametros(self, nomeTabela):
         """
-        Essa função conta a quantidade de parâmetros que uma tabela detém,
+        Esse método conta a quantidade de parâmetros que uma tabela detém,
         esse número de retorno, serve para montar a string do insert futuro
         """
 
@@ -82,12 +90,14 @@ class BancoDeDados():
         return len(info)
 
     def montarParametros(self, quantidade):
-        caracteres = '?' * quantidade
+        """
+        Monta um parâmetro válido para a inserção dos dados
+        em uma tabela.
+        Por exemplo para a tabela A ele gera (?, ?, ?, ?),
+        pois a tabela A contém quatro campos
+        """
 
-        # monta um parâmetro válido para a inserção dos dados
-        # em uma tabela.
-        # por exemplo para a tabela A ele gera (?, ?, ?, ?),
-        # como se a tabela A tivesse quatro parâmetros
+        caracteres = '?' * quantidade
         caracteres = caracteres.replace('??', '?, ?')
         caracteres = caracteres.replace('??', '?, ?')
 
