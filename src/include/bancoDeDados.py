@@ -23,7 +23,7 @@ class BancoDeDados():
     def fecharConexao(self):
         # TODO:
         # verifique se a abertura e fechamento constante implica numa
-        # perda de performance considerável.
+        # considerável perda de performance.
         #
         self.conexao.commit()
         self.conexao.close()

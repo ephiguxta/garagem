@@ -1,4 +1,6 @@
 from tkinter import *
+# serve para "setar" o caminho das imagens dinamicamente
+from sys import path
 import customtkinter
 
 import sqlite3
@@ -40,10 +42,13 @@ class Aplicacao():
 
     # Método com as requisitos funcionais
     def telaOpcoes(self):
-        # Definindo a logo
 
-        # TODO: inserir o caminho da imagem dinâmicamente
-        img = PhotoImage(file="logo1.png")
+        # definindo a logo da primeira tela
+        caminhoDaImagem = path[0] + '/img/logoPrincipal.png'
+        # TODO:
+        # realizar a leitura da imagem sem warnings
+        img = PhotoImage(file = caminhoDaImagem)
+
         label_img = customtkinter.CTkLabel(master=janela, image=img)
         label_img.place(x=-25, y=30)
 
