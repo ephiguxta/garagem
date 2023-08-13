@@ -1,4 +1,5 @@
 import sqlite3
+from os.path import exists
 
 caminho = 'sqlScripts/'
 
@@ -14,6 +15,13 @@ class BancoDeDados():
 
         self.database = database
         self.conectar()
+        self.checarExistencia()
+
+    def checarExistencia(self):
+        # caso não exista o BD, cria um novo através do script
+        # principal.
+        if not exists(self.database) == False:
+            self.executarScript('createDb.sql')
 
     def conectar(self):
         self.conexao = sqlite3.connect(self.database)
@@ -110,6 +118,7 @@ class BancoDeDados():
             return False
         return True
 
+"""
 # A maneira de utilizar essa classe é da seguinte forma:
 #
 script = 'createDb.sql'
@@ -124,3 +133,5 @@ dadosVeiculo = [ 'placa', 'marca', 'modelo', 1999-10-10, 'cor', 123, 123 ]
 
 db.inserirDados('funcionario', dadosFuncionario)
 db.inserirDados('veiculo', dadosVeiculo)
+"""
+

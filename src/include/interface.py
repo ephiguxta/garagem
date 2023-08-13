@@ -5,6 +5,7 @@ from sys import path
 
 from PIL import Image
 import customtkinter
+from bancoDeDados import BancoDeDados
 
 import sqlite3
 
@@ -13,6 +14,9 @@ janela = customtkinter.CTk()
 # Tela principal
 class Aplicacao():
     def __init__(self):
+        db = 'teste.db'
+        self.banco = BancoDeDados(db)
+
         self.janela = janela
         self.tema()
         self.tela()
