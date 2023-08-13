@@ -8,5 +8,5 @@ Esse software é resultado de um trabalho prático na disciplina de
 Crie um novo ambiente através do python `python -m venv env`, ative esse novo
 ambiente `source env/bin/activate` e instale as seguintes bibliotecas:
 
-- sqlite3
 - customtkinter
+- darkdetect
