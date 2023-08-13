@@ -1,6 +1,9 @@
 from tkinter import *
+
 # serve para "setar" o caminho das imagens dinamicamente
 from sys import path
+
+from PIL import Image
 import customtkinter
 
 import sqlite3
@@ -45,12 +48,16 @@ class Aplicacao():
 
         # definindo a logo da primeira tela
         caminhoDaImagem = path[0] + '/img/logoPrincipal.png'
-        # TODO:
-        # realizar a leitura da imagem sem warnings
-        img = PhotoImage(file = caminhoDaImagem)
+        img_data = Image.open(caminhoDaImagem)
 
-        label_img = customtkinter.CTkLabel(master=janela, image=img)
-        label_img.place(x=-25, y=30)
+        img = customtkinter.CTkImage(dark_image = Image.open(caminhoDaImagem),
+                                     light_image = Image.open(caminhoDaImagem),
+                                     size = img_data.size
+                                     )
+
+        label_img = customtkinter.CTkLabel(master=janela, image=img,
+                                           text = "")
+        label_img.place(x=-20, y=90)
 
         # Frame Opções
         frame = customtkinter.CTkFrame(janela, width=350, height=396)
