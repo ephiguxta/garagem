@@ -117,7 +117,7 @@ class BancoDeDados():
 
     def validaTabela(self, nomeTabela):
         # interagimos com essas tabelas na interface gráfica
-        tabelas = ['funcionario', 'cliente', 'veiculo', 'historico']
+        tabelas = ['funcionario', 'cliente', 'veiculo', 'compra', 'historico']
         if nomeTabela not in tabelas:
             return False
         return True
@@ -127,10 +127,20 @@ class BancoDeDados():
         # dependendo da tabela pode precisar de mais parâmetros
         #
         params = ''
+        if tabela == 'funcionario':
+            params = '*'
+            column = 'nome'
+            comando = f"select {params} from {tabela} where {column} like '%{nome}%'"
         if tabela == 'cliente':
-            params = ', email'
-
-        comando = f"select nome, cpf {params} from {tabela} where nome like '%{nome}%'"
+            params = '*'
+            column = 'nome'
+            comando = f"select {params} from {tabela} where {column} like '%{nome}%'"
+        if tabela == 'veiculo':
+            params = 'modelo, cor, ano, marca, placa, kmRodados, preco'
+            column = 'modelo'
+            comando = f"select {params} from {tabela} where {column} like '%{nome}%'"
+        if tabela == 'compra':
+            comando = f"select * from {tabela}"
 
         res = self.executarComando(comando)
         res = res.fetchall()
@@ -139,17 +149,18 @@ class BancoDeDados():
 """
 # A maneira de utilizar essa classe é da seguinte forma:
 #
+
+
+dadosFuncionario = [ '123', '123', 'nome', 'cargo', 123, 'endereco',
+                     'bairro', 123, 'cep', 'email', '2131231232' ]
+db.inserirDados('funcionario', dadosFuncionario)
+
+dadosVeiculo = [ 'placa', 'marca', 'modelo', 1999-10-10, 'cor', 123, 123 ]
+
+db.inserirDados('veiculo', dadosVeiculo)
+"""
+
 script = 'createDb.sql'
 databaseFile = 'test.db'
 db = BancoDeDados(databaseFile)
 db.executarScript(script)
-
-dadosFuncionario = [ '123', '123', 'nome', 'cargo', 123, 'endereco',
-                     'bairro', 123, 'cep', 'email' ]
-
-dadosVeiculo = [ 'placa', 'marca', 'modelo', 1999-10-10, 'cor', 123, 123 ]
-
-db.inserirDados('funcionario', dadosFuncionario)
-db.inserirDados('veiculo', dadosVeiculo)
-"""
-
