@@ -118,6 +118,13 @@ class BancoDeDados():
             return False
         return True
 
+    def pesquisarFuncionario(self, nome):
+        comando = f"select nome, cpf from funcionario where nome like '%{nome}%'"
+
+        res = self.executarComando(comando)
+        res = res.fetchall()
+
+        return res
 """
 # A maneira de utilizar essa classe é da seguinte forma:
 #

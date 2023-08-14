@@ -15,6 +15,7 @@ janela = customtkinter.CTk()
 class Aplicacao():
     def __init__(self):
         db = 'teste.db'
+        # db = 'bdGaragemJython.db'
         self.banco = BancoDeDados(db)
 
         self.janela = janela
@@ -511,17 +512,7 @@ class Aplicacao():
 
                 # Verifica se a pesquisa está vazia
                 if searchTerm:
-                    # Conexão temporária com o banco de dados
-                    conn = sqlite3.connect("bdGaragemJython.db")
-                    cursor = conn.cursor()
-
-                    # Atributos da pesquisa
-                    query = f"SELECT nome, cpfFuncionario FROM funcionario WHERE nome LIKE '%{nomeFuncPesquisarSave.get()}%'"
-                    cursor.execute(query)
-
-                    # Array de resultados
-                    results = cursor.fetchall()
-                    conn.close()
+                    results = self.banco.pesquisarFuncionario(searchTerm)
 
                     # Verifica se existe algum resultado
                     if  len(results) < 1:
