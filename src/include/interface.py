@@ -112,12 +112,16 @@ class Aplicacao():
         modeloVeiculoPesquisarSave = customtkinter.StringVar(janela)
 
         def cadastrar(tabela, dados):
+            """
+            Esse método serve para realizar os comandos de inserção
+            no BD
+            """
+
             info = []
 
             for dado in dados:
                 info.append(dado.get().strip())
 
-            print(info)
             self.banco.inserirDados(tabela, info)
 
         # Tela para cadastrar Funcionario
