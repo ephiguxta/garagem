@@ -11,6 +11,11 @@ import sqlite3
 
 janela = customtkinter.CTk()
 
+# TODO:
+# as inserções vazias estão passando sem erro, poluindo o BD
+# com lixo, arrumar as inserções.
+#
+
 # Tela principal
 class Aplicacao():
     def __init__(self):
