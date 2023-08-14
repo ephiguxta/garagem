@@ -15,7 +15,6 @@ janela = customtkinter.CTk()
 class Aplicacao():
     def __init__(self):
         db = 'teste.db'
-        # db = 'bdGaragemJython.db'
         self.banco = BancoDeDados(db)
 
         self.janela = janela
@@ -112,8 +111,14 @@ class Aplicacao():
         # Variável para pesquisar veículo 
         modeloVeiculoPesquisarSave = customtkinter.StringVar(janela)
 
-        def printnome():
-            print("Inisira a função no command=")
+        def cadastrar(tabela, dados):
+            info = []
+
+            for dado in dados:
+                info.append(dado.get().strip())
+
+            print(info)
+            self.banco.inserirDados(tabela, info)
 
         # Tela para cadastrar Funcionario
         def telaCadastrarFuncionario():
@@ -286,6 +291,7 @@ class Aplicacao():
                                            text="Email: ",
                                            ).place(x=280, y=320)
 
+            """
             labelNomeEmpresa = customtkinter.CTkLabel(master=frameLabelCliente,
                                            text="Empresa: ",
                                            ).place(x=280, y=360)
@@ -293,6 +299,7 @@ class Aplicacao():
             labelCnpfCliente = customtkinter.CTkLabel(master=frameLabelCliente,
                                            text="CNPJ: ",
                                            ).place(x=280, y=400)
+            """
 
 
             # Entrada de dados
@@ -336,6 +343,7 @@ class Aplicacao():
                                                       width=300
                                                       ).place(x=25, y=320)
 
+            """
             nomeEmpresa = customtkinter.CTkEntry(master=frameCliente,
                                                       textvariable=nomeEmpresaClienteSave,
                                                       width=300
@@ -345,15 +353,21 @@ class Aplicacao():
                                                       textvariable=cnpjClienteSave,
                                                       width=300
                                                       ).place(x=25, y=400)
+            """
 
-            saveFuncionario = customtkinter.CTkButton(master=frameCliente, 
-                                         text="Cadastrar Funcionário", 
-                                         width=300, height=30,  
-                                         font=("Roboto", 16),
-                                         fg_color="green",
-                                         hover_color="#014B05",
-                                         command=printnome
-                                         ).place(x=25, y=480)
+            dadosCliente = [cpfClienteSave, nomeClienteSave, enderecoClienteSave,
+                            numeroClienteSave, bairroClienteSave, cepClienteSave,
+                            telefoneClienteSave, emailClienteSave
+                            ]
+
+            saveCliente = customtkinter.CTkButton(master=frameCliente,
+                                    text="Cadastrar Cliente",
+                                    width=300, height=30,
+                                    font=("Roboto", 16),
+                                    fg_color="green",
+                                    hover_color="#014B05",
+                                    command = lambda : cadastrar('cliente', dadosCliente)
+                                ).place(x=25, y=480)
 
             # Volta para tela inicial
             def back():
@@ -512,7 +526,7 @@ class Aplicacao():
 
                 # Verifica se a pesquisa está vazia
                 if searchTerm:
-                    results = self.banco.pesquisarFuncionario(searchTerm)
+                    results = self.banco.pesquisar('funcionario', searchTerm)
 
                     # Verifica se existe algum resultado
                     if  len(results) < 1:
@@ -599,17 +613,8 @@ class Aplicacao():
                 # Verifica se a pesquisa está vazia
                 if searchTerm:
 
-                    # Conexão temporária com o banco de dados
-                    conn = sqlite3.connect("bdGaragemJython.db")
-                    cursor = conn.cursor()
-
-                    # Atributos da pesquisa
-                    query = f"SELECT nome, cpfPessoaFisica, email FROM PessoaFisica WHERE nome LIKE '%{nomePesquisarClienteSave.get()}%'"
-                    cursor.execute(query)
-
-                    # Array de resultados
-                    results = cursor.fetchall()
-                    conn.close()
+                    nome = nomePesquisarClienteSave.get()
+                    results = self.banco.pesquisar('cliente', nome)
 
                     # Verifica se esxiste resultado
                     if  len(results) < 1:

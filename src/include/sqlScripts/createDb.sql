@@ -36,7 +36,7 @@ create table if not exists veiculo (
 	primary key (placa)
 );
 
-create table if not exists pessoa (
+create table if not exists cliente (
 	cpf varchar(18) not null,
 	-- no script antigo aqui teria o seguinte campo:
 	-- rg varchar(16) not null,
@@ -45,9 +45,8 @@ create table if not exists pessoa (
 	numero int not null,
 	bairro varchar(45) not null,
 	cep varchar(20) not null,
+	telefone varchar(15) not null,
 	email varchar(45) not null,
-	-- telefone varchar(15) not null,
-	id int not null,
 
 	primary key (cpf)
 );

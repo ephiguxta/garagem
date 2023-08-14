@@ -77,8 +77,8 @@ class BancoDeDados():
             return None
 
         else:
-            params = self.contarParametros(nomeTabela)
-            params = self.montarParametros(params)
+            nParams = self.contarParametros(nomeTabela)
+            params = self.montarParametros(nParams)
 
             sql = f"insert into {nomeTabela} values ({params})"
             self.executarComando(sql, dados)
@@ -106,6 +106,7 @@ class BancoDeDados():
         """
 
         caracteres = '?' * quantidade
+
         caracteres = caracteres.replace('??', '?, ?')
         caracteres = caracteres.replace('??', '?, ?')
 
@@ -118,8 +119,15 @@ class BancoDeDados():
             return False
         return True
 
-    def pesquisarFuncionario(self, nome):
-        comando = f"select nome, cpf from funcionario where nome like '%{nome}%'"
+    def pesquisar(self, tabela, nome):
+
+        # dependendo da tabela pode precisar de mais parâmetros
+        #
+        params = ''
+        if tabela == 'cliente':
+            params = ', email'
+
+        comando = f"select nome, cpf {params} from {tabela} where nome like '%{nome}%'"
 
         res = self.executarComando(comando)
         res = res.fetchall()
