@@ -14,13 +14,16 @@ class BancoDeDados():
         """
 
         self.database = database
-        self.conectar()
+        self.conectado = False
         self.checarExistencia()
 
     def checarExistencia(self):
         # caso não exista o BD, cria um novo através do script
         # principal.
-        if not exists(self.database) == False:
+        if exists(self.database):
+            self.conectar()
+
+        else:
             self.executarScript('createDb.sql')
 
     def conectar(self):
@@ -71,10 +74,10 @@ class BancoDeDados():
         # os dados a serem inseridos devem estar definidos
         # em uma lista
         if type(dados) is not list:
-            return None
+            return False
 
         if not self.validaTabela(nomeTabela):
-            return None
+            return False
 
         else:
             nParams = self.contarParametros(nomeTabela)
