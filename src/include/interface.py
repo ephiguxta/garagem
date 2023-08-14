@@ -71,15 +71,17 @@ class Aplicacao():
         font = customtkinter.CTkFont(family="Roboto", size=16)
 
         # Variáveis que serão armazenadas no registro do funcionário
-        nome = customtkinter.StringVar(janela)
-        enderecoSave = customtkinter.StringVar(janela)
-        numeroSave = customtkinter.StringVar(janela)
-        bairroSave = customtkinter.StringVar(janela)
-        cepSave = customtkinter.StringVar(janela)
-        telefoneSave = customtkinter.StringVar(janela)
-        emailSave = customtkinter.StringVar(janela)
+        cpfSave = customtkinter.StringVar(janela)
+        rgSave = customtkinter.StringVar(janela)
+        nomeSave = customtkinter.StringVar(janela)
         cargoSave = customtkinter.StringVar(janela)
         salarioSave = customtkinter.StringVar(janela)
+        enderecoSave = customtkinter.StringVar(janela)
+        bairroSave = customtkinter.StringVar(janela)
+        numeroSave = customtkinter.StringVar(janela)
+        cepSave = customtkinter.StringVar(janela)
+        emailSave = customtkinter.StringVar(janela)
+        telefoneSave = customtkinter.StringVar(janela)
 
         # Variáveis que serão armazenadas no registro de clientes
         cpfClienteSave = customtkinter.StringVar(janela)
@@ -141,95 +143,118 @@ class Aplicacao():
                                            ).place(x=25, y=5)
 
             # Títulos
+            labelCpfFuncionario = customtkinter.CTkLabel(frameLabelFuncionario,
+                                                         text = "CPF: ",
+                                                         ).place(x = 280, y = 40)
+
+            labelRgFuncionario = customtkinter.CTkLabel(frameLabelFuncionario,
+                                                        text = "RG: ",
+                                                        ).place(x = 280, y = 80)
+
             labelNomeFuncionario = customtkinter.CTkLabel(master=frameLabelFuncionario,
                                            text="Nome: ",
-                                           ).place(x=280, y=40)
-
-            labelEnderecoFuncionario = customtkinter.CTkLabel(master=frameLabelFuncionario,
-                                           text="Endereço: ",
-                                           ).place(x=280, y=80)
-
-            labelNumeroFuncionario = customtkinter.CTkLabel(master=frameLabelFuncionario,
-                                           text="Número: ",
                                            ).place(x=280, y=120)
-
-            labelBairroFuncionario = customtkinter.CTkLabel(master=frameLabelFuncionario,
-                                           text="Bairro: ",
-                                           ).place(x=280, y=160)
-
-            labelCepFuncionario = customtkinter.CTkLabel(master=frameLabelFuncionario,
-                                           text="Cep: ",
-                                           ).place(x=280, y=200)
-
-            labelTelefoneFuncionario = customtkinter.CTkLabel(master=frameLabelFuncionario,
-                                           text="Telefone: ",
-                                           ).place(x=280, y=240)
-
-            labelEmailFuncionario = customtkinter.CTkLabel(master=frameLabelFuncionario,
-                                           text="Email: ",
-                                           ).place(x=280, y=280)
 
             labelCargoFuncionario = customtkinter.CTkLabel(master=frameLabelFuncionario,
                                            text="Cargo: ",
-                                           ).place(x=280, y=320)
+                                           ).place(x=280, y=160)
 
             labelSalarioFuncionario = customtkinter.CTkLabel(master=frameLabelFuncionario,
                                            text="Salário: ",
+                                           ).place(x=280, y=200)
+
+
+            labelEnderecoFuncionario = customtkinter.CTkLabel(master=frameLabelFuncionario,
+                                           text="Endereço: ",
+                                           ).place(x=280, y=240)
+
+            labelBairroFuncionario = customtkinter.CTkLabel(master=frameLabelFuncionario,
+                                           text="Bairro: ",
+                                           ).place(x=280, y=280)
+
+            labelNumeroFuncionario = customtkinter.CTkLabel(master=frameLabelFuncionario,
+                                           text="Número: ",
+                                           ).place(x=280, y=320)
+
+            labelCepFuncionario = customtkinter.CTkLabel(master=frameLabelFuncionario,
+                                           text="Cep: ",
                                            ).place(x=280, y=360)
 
+            labelEmailFuncionario = customtkinter.CTkLabel(master=frameLabelFuncionario,
+                                           text="Email: ",
+                                           ).place(x=280, y=400)
+
+            labelTelefoneFuncionario = customtkinter.CTkLabel(master=frameLabelFuncionario,
+                                           text="Telefone: ",
+                                           ).place(x=280, y=440)
             # Entrada de dados
-            nomeEntry = customtkinter.CTkEntry(master=frameFuncionario,
-                                                      width=300,
-                                                      textvariable=nome
-                                                      ).place(x=25, y=40)
+            cpfEntry = customtkinter.CTkEntry(frameFuncionario,
+                                              width = 300,
+                                              textvariable = cpfSave,
+                                              ).place(x=25, y=40)
 
-            enderecoEntry = customtkinter.CTkEntry(master=frameFuncionario,
-                                                      textvariable=enderecoSave,
-                                                      width=300
-                                                      ).place(x=25, y=80)
+            rgEntry= customtkinter.CTkEntry(frameFuncionario,
+                                            width=300,
+                                            textvariable=rgSave
+                                            ).place(x=25, y=80)
 
-            numeroEntry = customtkinter.CTkEntry(master=frameFuncionario,
-                                                      textvariable=numeroSave,
-                                                      width=300
-                                                      ).place(x=25, y=120)
-
-            bairroEntry = customtkinter.CTkEntry(master=frameFuncionario,
-                                                      textvariable=bairroSave,
-                                                      width=300
-                                                      ).place(x=25, y=160)
-
-            cepEntry = customtkinter.CTkEntry(master=frameFuncionario,
-                                                      textvariable=cepSave,
-                                                      width=300
-                                                      ).place(x=25, y=200)
-
-            telefoneEntry = customtkinter.CTkEntry(master=frameFuncionario,
-                                                      textvariable=telefoneSave,
-                                                      width=300
-                                                      ).place(x=25, y=240)
-
-            emailEntry = customtkinter.CTkEntry(master=frameFuncionario,
-                                                      textvariable=emailSave,
-                                                      width=300
-                                                      ).place(x=25, y=280)
+            nomeEntry = customtkinter.CTkEntry(frameFuncionario,
+                                               width=300,
+                                               textvariable=nomeSave
+                                               ).place(x=25, y=120)
 
             cargoEntry = customtkinter.CTkEntry(master=frameFuncionario,
                                                       textvariable=cargoSave,
                                                       width=300
-                                                      ).place(x=25, y=320)
+                                                      ).place(x=25, y=160)
 
             salarioEntry = customtkinter.CTkEntry(master=frameFuncionario,
                                                       textvariable=salarioSave,
                                                       width=300
-                                                      ).place(x=25, y=360)
+                                                      ).place(x=25, y=200)
 
-            saveFuncionario = customtkinter.CTkButton(master=frameFuncionario, 
-                                         text="Cadastrar Funcionário", 
-                                         width=300, height=30,  
+            enderecoEntry = customtkinter.CTkEntry(frameFuncionario,
+                                                   textvariable=enderecoSave,
+                                                   width=300
+                                                   ).place(x=25, y=240)
+
+            bairroEntry = customtkinter.CTkEntry(frameFuncionario,
+                                                 textvariable=bairroSave,
+                                                 width=300
+                                                 ).place(x=25, y=280)
+
+            numeroEntry = customtkinter.CTkEntry(frameFuncionario,
+                                                 textvariable=numeroSave,
+                                                 width=300
+                                                 ).place(x=25, y=320)
+
+            cepEntry = customtkinter.CTkEntry(frameFuncionario,
+                                              textvariable=cepSave,
+                                              width=300
+                                              ).place(x=25, y=360)
+
+            emailEntry = customtkinter.CTkEntry(master=frameFuncionario,
+                                                      textvariable=emailSave,
+                                                      width=300
+                                                      ).place(x=25, y=400)
+
+            telefoneEntry = customtkinter.CTkEntry(master=frameFuncionario,
+                                                      textvariable=telefoneSave,
+                                                      width=300
+                                                      ).place(x=25, y=440)
+
+            dadosFuncionario = [cpfSave, rgSave, nomeSave, cargoSave, salarioSave,
+                                enderecoSave, bairroSave, numeroSave, cepSave,
+                                emailSave, telefoneSave]
+
+            saveFuncionario = customtkinter.CTkButton(master=frameFuncionario,
+                                         text="Cadastrar Funcionário",
+                                         width=300, height=30,
                                          font=("Roboto", 16),
                                          fg_color="green",
                                          hover_color="#014B05",
-                                         command=printnome
+                                         command = lambda : cadastrar('funcionario',
+                                                                      dadosFuncionario)
                                          ).place(x=25, y=480)
 
             # Volta para tela inicial

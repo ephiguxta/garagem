@@ -21,6 +21,7 @@ create table if not exists funcionario (
 	numero int not null,
 	cep varchar(45) not null,
 	email varchar(45) not null,
+	telefone varchar(15) not null,
 	primary key (cpf)
 );
 
