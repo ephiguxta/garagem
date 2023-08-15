@@ -12,7 +12,7 @@ create table if not exists garagem (
 
 create table if not exists funcionario (
 	cpf varchar(14) not null,
-	rg varchar(16) not null,
+	-- rg varchar(16) not null,
 	nome varchar(45) not null,
 	cargo varchar(45) not null,
 	salario float not null,
@@ -39,8 +39,7 @@ create table if not exists veiculo (
 
 create table if not exists cliente (
 	cpf varchar(18) not null,
-	-- no script antigo aqui teria o seguinte campo:
-	-- rg varchar(16) not null,
+	rg varchar(16) not null,
 	nome varchar(45) not null,
 	endereco varchar(45) not null,
 	numero int not null,
