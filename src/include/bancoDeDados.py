@@ -83,6 +83,7 @@ class BancoDeDados():
             nParams = self.contarParametros(nomeTabela)
             params = self.montarParametros(nParams)
 
+            print(f"nome da tabela: {nomeTabela}\nparams: {params}")
             sql = f"insert into {nomeTabela} values ({params})"
             self.executarComando(sql, dados)
 
@@ -146,21 +147,4 @@ class BancoDeDados():
         res = res.fetchall()
 
         return res
-"""
-# A maneira de utilizar essa classe é da seguinte forma:
-#
 
-
-dadosFuncionario = [ '123', '123', 'nome', 'cargo', 123, 'endereco',
-                     'bairro', 123, 'cep', 'email', '2131231232' ]
-db.inserirDados('funcionario', dadosFuncionario)
-
-dadosVeiculo = [ 'placa', 'marca', 'modelo', 1999-10-10, 'cor', 123, 123 ]
-
-db.inserirDados('veiculo', dadosVeiculo)
-"""
-
-script = 'createDb.sql'
-databaseFile = 'test.db'
-db = BancoDeDados(databaseFile)
-db.executarScript(script)

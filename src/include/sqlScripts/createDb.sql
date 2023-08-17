@@ -12,7 +12,7 @@ create table if not exists garagem (
 
 create table if not exists funcionario (
 	cpf varchar(14) not null,
-	-- rg varchar(16) not null,
+	rg varchar(16) not null,
 	nome varchar(45) not null,
 	cargo varchar(45) not null,
 	salario float not null,
@@ -26,13 +26,13 @@ create table if not exists funcionario (
 );
 
 create table if not exists veiculo (
-	placa varchar(9) not null,
-	marca varchar(45) not null,
 	modelo varchar(45) not null,
+	marca varchar(45) not null,
 	ano date not null,
 	cor varchar(45) not null,
-	kmRodados int not null,
 	preco float not null,
+	placa varchar(9) not null,
+	kmRodados int not null,
 
 	primary key (placa)
 );
