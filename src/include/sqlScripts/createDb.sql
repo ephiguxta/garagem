@@ -68,7 +68,7 @@ create trable if not exists pessoaFisica (
 create table if not exists venda (
     cpf_cliente varchar(14) not null,
     cpf_funcionario varchar(14) not null,
-	data_venda varchar(10) not null,
+	data_venda date not null,
     placa_veiculo varchar(9) not null,
     id integer not null primary key autoincrement,
 

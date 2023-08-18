@@ -71,8 +71,6 @@ class BancoDeDados():
         return res
 
     def inserirDados(self, nomeTabela, dados):
-        # os dados a serem inseridos devem estar definidos
-        # em uma lista
         if type(dados) is not list:
             return False
 
@@ -80,11 +78,14 @@ class BancoDeDados():
             return False
 
         else:
-            nParams = self.contarParametros(nomeTabela)
-            params = self.montarParametros(nParams)
+            
+            if nomeTabela == 'venda':
+                sql = f"insert into {nomeTabela} (cpf_cliente, cpf_funcionario, data_venda, placa_veiculo) values (?, ?, ?, ?)"
+            else:
+                nParams = self.contarParametros(nomeTabela)
+                params = self.montarParametros(nParams)
+                sql = f"insert into {nomeTabela} values ({params})"
 
-            print(f"nome da tabela: {nomeTabela}\nparams: {params}")
-            sql = f"insert into {nomeTabela} values ({params})"
             self.executarComando(sql, dados)
 
             self.fecharConexao()
@@ -123,29 +124,17 @@ class BancoDeDados():
             return False
         return True
 
-    def pesquisar(self, tabela, nome):
+    def pesquisar(self, tabela, textoPesquisa = '', coluna = 'nome'):
 
         # dependendo da tabela pode precisar de mais parâmetros
         #
-        params = ''
-        if tabela == 'funcionario':
-            params = '*'
-            column = 'nome'
-            comando = f"select {params} from {tabela} where {column} like '%{nome}%'"
-        if tabela == 'cliente':
-            params = '*'
-            column = 'nome'
-            comando = f"select {params} from {tabela} where {column} like '%{nome}%'"
-        if tabela == 'veiculo':
-            params = 'modelo, cor, ano, marca, placa, kmRodados, preco'
-            column = 'modelo'
-            comando = f"select {params} from {tabela} where {column} like '%{nome}%'"
+
         if tabela == 'venda':
             comando = f"select * from {tabela}"
+        else:
+            comando = f"select * from {tabela} where {coluna} like '%{textoPesquisa}%'"
         
-
         res = self.executarComando(comando)
         res = res.fetchall()
 
         return res
-
