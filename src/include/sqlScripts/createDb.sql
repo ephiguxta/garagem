@@ -1,15 +1,3 @@
-create table if not exists garagem (
-	cnpj varchar(18) not null,
-	nome varchar(45) not null,
-	endereco varchar(45) not null,
-	bairro varchar(45) not null,
-	numero int not null,
-	cep varchar(20) not null,
-	email varchar(45) not null,
-
-	primary key (cnpj)
-);
-
 create table if not exists funcionario (
 	cpf varchar(18) not null,
 	rg varchar(16) not null,
@@ -52,19 +40,6 @@ create table if not exists cliente (
 	primary key (cpf)
 );
 
-
--- TODO: definir qual tabela seria inserido os dados
--- se for uma pessoa física ou jurídica
-
-/*
-create trable if not exists pessoaFisica (
-	rg varchar(14) not null,
-	dataNasc date not null,
-	sexo varchar(1) not null,
-	primary key
-);
-*/
-
 create table if not exists venda (
     cpf_cliente varchar(14) not null,
     cpf_funcionario varchar(14) not null,
@@ -76,24 +51,3 @@ create table if not exists venda (
     foreign key (cpf_cliente) references cliente (cpf),
     foreign key (placa_veiculo) references veiculo (placa)
 );
-
--- create table if not exists compra (
--- 	id integer not null autoincrement,
--- 	cnpjGaragem varchar(18) not null,
--- 	cpfPessoa varchar not null,
--- 	-- cpfFuncionario varchar(14) not null,
--- 	-- cpfPessoaFisica varchar(14),
--- 	-- cnpjPessoaJuridica varchar(18),
-
--- 	placaVeiculo varchar(9) not null,
-	
--- 	primary key (id),
--- 	foreign key (cnpjGaragem) references garagem (cnpj),
--- 	foreign key (cpfPessoa) references funcionario (cpf),
-
--- 	foreign key (cpfPessoa) references cpf (pessoa),
--- 	-- foreign key cpfPessoaFisica references pessoaFisica cpfPessoaFisica,
--- 	-- foreign key cnpjPessoaJuridica references pessoaJuridica cnpjPessoaJuridica,
-
--- 	foreign key (placaVeiculo) references placa (veiculo)
--- );

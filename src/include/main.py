@@ -5,44 +5,11 @@ from PIL import Image
 import customtkinter
 from bancoDeDados import BancoDeDados
 
-class Pessoa:
-    def __init__(self):
-        self.cpf = customtkinter.StringVar()
-        self.rg = customtkinter.StringVar()
-        self.nome = customtkinter.StringVar()
-        self.endereco = customtkinter.StringVar()
-        self.numero = customtkinter.StringVar()
-        self.bairro = customtkinter.StringVar()
-        self.cep = customtkinter.StringVar()
-        self.telefone = customtkinter.StringVar()
-        self.email = customtkinter.StringVar()
+from funcionario import Funcionario
+from cliente import Cliente
+from veiculos import Veiculo
+from venda import Venda
 
-class Funcionario(Pessoa):
-    def __init__(self):
-        super().__init__()
-        self.cargo = customtkinter.StringVar()
-        self.salario = customtkinter.StringVar()
-
-class Cliente(Pessoa):
-    def __init__(self):
-        super().__init__()
-
-class Veiculo:
-    def __init__(self):
-        self.modelo = customtkinter.StringVar()
-        self.marca = customtkinter.StringVar()
-        self.ano = customtkinter.StringVar()
-        self.cor = customtkinter.StringVar()
-        self.preco = customtkinter.StringVar()
-        self.placa = customtkinter.StringVar()
-        self.kmRodados = customtkinter.StringVar()
-
-class Venda:
-    def __init__(self):
-        self.cpfCliente = customtkinter.StringVar()
-        self.cpfFuncionario = customtkinter.StringVar()
-        self.dataVenda = customtkinter.StringVar()
-        self.placaVeiculo = customtkinter.StringVar()
 
 class Aplicacao:
     def __init__(self):
