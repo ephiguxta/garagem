@@ -118,7 +118,7 @@ class BancoDeDados():
 
     def validaTabela(self, nomeTabela):
         # interagimos com essas tabelas na interface gráfica
-        tabelas = ['funcionario', 'cliente', 'veiculo', 'compra', 'historico']
+        tabelas = ['funcionario', 'cliente', 'veiculo', 'venda', 'historico']
         if nomeTabela not in tabelas:
             return False
         return True
@@ -140,8 +140,9 @@ class BancoDeDados():
             params = 'modelo, cor, ano, marca, placa, kmRodados, preco'
             column = 'modelo'
             comando = f"select {params} from {tabela} where {column} like '%{nome}%'"
-        if tabela == 'compra':
+        if tabela == 'venda':
             comando = f"select * from {tabela}"
+        
 
         res = self.executarComando(comando)
         res = res.fetchall()
