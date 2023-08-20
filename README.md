@@ -8,9 +8,9 @@ Esse software é resultado de um trabalho prático na disciplina de
 Crie um novo ambiente através do python `python -m venv env`, ative esse novo
 ambiente `source env/bin/activate` e instale as seguintes bibliotecas:
 
-Execute `python main.py` no diretório /src
-
 - customtkinter
   `pip install customtkinter`
 - pillow
   `pip install pillow`
+
+Execute `python main.py` no diretório /src
