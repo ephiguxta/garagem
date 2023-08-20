@@ -4,6 +4,7 @@ from sys import path
 from PIL import Image
 import customtkinter
 from bancoDeDados import BancoDeDados
+import sqlite3
 
 from funcionario import Funcionario
 from cliente import Cliente
@@ -88,21 +89,16 @@ class Aplicacao:
         valores = []
 
         for valor in atributos.values():
-            valores.append(valor.get())
+            valores.append(valor)
 
-        # Inserção no BD
-        self.banco.inserirDados(tabela, valores)
+        try:
+            self.banco.inserirDados(tabela, valores)
+            tkinter.messagebox.showinfo("Sucesso", "O cadastro foi realizado com sucesso!")
 
-        # Limpar os valores das entradas após o cadastro
-        for valor in atributos.values():
-            valor.set("")
-
-        tkinter.messagebox.showinfo("Sucesso", "O cadastro foi realizado com sucesso!")
-
-    # TODO
-    # 1. Validar os dados antes da inserção no banco
-    # 2. Verificar bancoDeDados.py
-
+        except sqlite3.IntegrityError:
+            tkinter.messagebox.showerror('Falha','Usuário já cadastrado')
+        
+            
     def telaCadastrarFuncionario(self):
         self.frame.pack_forget()
 
@@ -127,31 +123,42 @@ class Aplicacao:
         y = 40
 
         campos = [
-            ("CPF", novoFuncionario.cpf),
-            ("RG", novoFuncionario.rg),
-            ("Nome", novoFuncionario.nome),
-            ("Endereço", novoFuncionario.endereco),
-            ("Número", novoFuncionario.numero),
-            ("Bairro", novoFuncionario.bairro),
-            ("CEP", novoFuncionario.cep),
-            ("Email", novoFuncionario.email),
-            ("Telefone", novoFuncionario.telefone),
-            ("Cargo", novoFuncionario.cargo),
-            ("Salário", novoFuncionario.salario),
+            ("Cpf", "Cpf"),
+            ("Rg", "Rg"),
+            ("Nome", "Nome"),
+            ("Endereço", "Endereco"),
+            ("Número", "Numero"),
+            ("Bairro", "Bairro"),
+            ("Cep", "Cep"),
+            ("Email", "Email"),
+            ("Telefone", "Telefone"),
+            ("Cargo", "Cargo"),
+            ("Salário", "Salario"),
         ]
 
-        for label, var in campos:
+        for label, nomeAtributo in campos:
+            nomeSetter = "set" + nomeAtributo
+            setter = getattr(novoFuncionario, nomeSetter)
+
             customtkinter.CTkLabel(
                 frameLabelFuncionario,
                 text=f"{label}: ",
             ).place(x=280, y=y)
 
-            customtkinter.CTkEntry(
+            var = customtkinter.StringVar()
+
+            entry = customtkinter.CTkEntry(
                 frameFuncionario,
                 width=300,
                 textvariable=var,
-            ).place(x=25, y=y)
+            )
+            entry.place(x=25, y=y)
+
+            entry.bind("<KeyRelease>", lambda event, s=setter, v=var: s(v.get()))
             y += 40
+
+        def createLambda(setter, var):
+            return lambda event: setter(var.get())
 
         customtkinter.CTkButton(
             frameFuncionario,
@@ -161,7 +168,7 @@ class Aplicacao:
             font=("Roboto", 16),
             fg_color="green",
             hover_color="#014B05",
-            command=lambda: self.cadastrar("funcionario", novoFuncionario),
+            command=lambda: (self.cadastrar("funcionario", novoFuncionario), self.telaCadastrarFuncionario())
         ).place(x=25, y=480)
 
         customtkinter.CTkButton(
@@ -1005,6 +1012,5 @@ class Aplicacao:
         from datetime import datetime
 
         return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
 
 app = Aplicacao()
