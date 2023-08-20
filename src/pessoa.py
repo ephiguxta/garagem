@@ -1,5 +1,6 @@
 import customtkinter
 
+
 class Pessoa:
     def __init__(self):
         self.cpf = customtkinter.StringVar()

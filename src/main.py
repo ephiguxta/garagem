@@ -13,7 +13,6 @@ from venda import Venda
 
 class Aplicacao:
     def __init__(self):
-
         self.banco = BancoDeDados("test.db")
         self.janela = customtkinter.CTk()
         self.frame = customtkinter.CTkFrame(self.janela)
@@ -46,9 +45,7 @@ class Aplicacao:
         caminhoDaImagem = path[0] + "/img/logoPrincipal.png"
         imgData = Image.open(caminhoDaImagem)
         img = customtkinter.CTkImage(
-            dark_image=imgData,
-            light_image=imgData,
-            size=(350,350)
+            dark_image=imgData, light_image=imgData, size=(350, 350)
         )
 
         self.frame = customtkinter.CTkFrame(self.janela)
@@ -71,9 +68,9 @@ class Aplicacao:
             ("Cadastrar Veículo", self.telaCadastrarVeiculo),
             ("Pesquisar Veículo", self.telaPesquisarVeiculo),
             ("Histórico de Vendas", self.telaHistoricoVendas),
-            ("Realizar Venda", self.telaRealizarVenda)
+            ("Realizar Venda", self.telaRealizarVenda),
         ]
-        
+
         y = 60
         for text, command in dadosBotao:
             customtkinter.CTkButton(
@@ -82,12 +79,11 @@ class Aplicacao:
                 width=300,
                 height=30,
                 font=("Roboto", 16),
-                command=command
+                command=command,
             ).place(x=25, y=y)
             y += 40
 
     def cadastrar(self, tabela, entryObject):
-        
         atributos = vars(entryObject)
         valores = []
 
@@ -99,11 +95,11 @@ class Aplicacao:
 
         # Limpar os valores das entradas após o cadastro
         for valor in atributos.values():
-            valor.set('')
+            valor.set("")
 
         tkinter.messagebox.showinfo("Sucesso", "O cadastro foi realizado com sucesso!")
 
-    # TODO 
+    # TODO
     # 1. Validar os dados antes da inserção no banco
     # 2. Verificar bancoDeDados.py
 
@@ -116,7 +112,9 @@ class Aplicacao:
         frameFuncionario = customtkinter.CTkFrame(self.frame, width=350, height=600)
         frameFuncionario.pack(side=RIGHT)
 
-        frameLabelFuncionario = customtkinter.CTkFrame(self.frame, width=350, height=600)
+        frameLabelFuncionario = customtkinter.CTkFrame(
+            self.frame, width=350, height=600
+        )
         frameLabelFuncionario.pack(side=LEFT)
 
         customtkinter.CTkLabel(
@@ -126,7 +124,7 @@ class Aplicacao:
 
         novoFuncionario = Funcionario()
 
-        y=40
+        y = 40
 
         campos = [
             ("CPF", novoFuncionario.cpf),
@@ -149,11 +147,11 @@ class Aplicacao:
             ).place(x=280, y=y)
 
             customtkinter.CTkEntry(
-                        frameFuncionario,
-                        width=300,
-                        textvariable=var,
+                frameFuncionario,
+                width=300,
+                textvariable=var,
             ).place(x=25, y=y)
-            y+=40
+            y += 40
 
         customtkinter.CTkButton(
             frameFuncionario,
@@ -184,104 +182,197 @@ class Aplicacao:
         self.frame.pack(fill=BOTH, expand=True)
 
         # Frame com os dados do funcionario
-        framePesquisarFuncionario = customtkinter.CTkFrame(self.frame, width=350, height=600)
+        framePesquisarFuncionario = customtkinter.CTkFrame(
+            self.frame, width=350, height=600
+        )
         framePesquisarFuncionario.pack(side=RIGHT)
 
         # Frame com os títulos
-        frameLabelPesquisarFuncionario = customtkinter.CTkFrame(self.frame, width=350, height=600)
+        frameLabelPesquisarFuncionario = customtkinter.CTkFrame(
+            self.frame, width=350, height=600
+        )
         frameLabelPesquisarFuncionario.pack(side=LEFT)
 
-        customtkinter.CTkLabel(framePesquisarFuncionario,
-                                        text="Pesquisar Funcionário",
-                                        ).place(x=25, y=5)
+        customtkinter.CTkLabel(
+            framePesquisarFuncionario,
+            text="Pesquisar Funcionário",
+        ).place(x=25, y=5)
 
-        customtkinter.CTkLabel(frameLabelPesquisarFuncionario,
-                                        text="Nome: ",
-                                        ).place(x=280, y=40)
+        customtkinter.CTkLabel(
+            frameLabelPesquisarFuncionario,
+            text="Nome: ",
+        ).place(x=280, y=40)
 
         nomeFuncPesquisarSave = customtkinter.StringVar()
 
-        customtkinter.CTkEntry(framePesquisarFuncionario,
-                                                    width=300,
-                                                    textvariable = nomeFuncPesquisarSave,
-                                                    ).place(x=25, y=40)
+        customtkinter.CTkEntry(
+            framePesquisarFuncionario,
+            width=300,
+            textvariable=nomeFuncPesquisarSave,
+        ).place(x=25, y=40)
 
-        scrollableFuncionarioFrame = customtkinter.CTkScrollableFrame(framePesquisarFuncionario, width=280, height=350)
+        scrollableFuncionarioFrame = customtkinter.CTkScrollableFrame(
+            framePesquisarFuncionario, width=280, height=350
+        )
         scrollableFuncionarioFrame.place(x=25, y=90)
 
         def pesquisarFuncionario():
-
-
             # Exclui os dados da pesquisa anterior
             for widget in scrollableFuncionarioFrame.winfo_children():
-                widget.destroy() 
+                widget.destroy()
 
             searchTerm = nomeFuncPesquisarSave.get().strip()
 
             # Verifica se a pesquisa está vazia
             if searchTerm:
-                results = self.banco.pesquisar('funcionario', searchTerm)
+                results = self.banco.pesquisar("funcionario", searchTerm)
 
                 # Verifica se existe algum resultado
-                if  len(results) < 1:
-                        customtkinter.CTkLabel(scrollableFuncionarioFrame, text="Não foi possível encontar.").pack(side="top")
+                if len(results) < 1:
+                    customtkinter.CTkLabel(
+                        scrollableFuncionarioFrame, text="Não foi possível encontar."
+                    ).pack(side="top")
 
                 # Tratamento e disposição na tela
-                colors = ["#303030", "#343638"] 
+                colors = ["#303030", "#343638"]
                 for i, result in enumerate(results):
                     colorIndex = i % len(colors)
                     color = colors[colorIndex]
 
                     labelFrame = customtkinter.CTkFrame(scrollableFuncionarioFrame)
                     labelFrame.pack(side="top")
-                    
-                    customtkinter.CTkLabel(labelFrame, text="Cpf: " + result[0],
-                                        font=("Helvetica", 12),height=40,width=300, anchor=SW, padx=20, bg_color=color).pack(side="top")
-                    
-                    customtkinter.CTkLabel(labelFrame, text="Rg: " + result[1],
-                                        font=("Helvetica", 12),height=20,width=300, anchor=W, padx=20, bg_color=color).pack(side="top")
 
-                    customtkinter.CTkLabel(labelFrame, text="Nome: " + result[2],
-                                        font=("Helvetica", 12),height=20,width=300, anchor=W, padx=20, bg_color=color).pack(side="top")
-                    
-                    customtkinter.CTkLabel(labelFrame, text="Endereço: " + result[3] + ", " + str(result[4]),
-                                        font=("Helvetica", 12),height=20,width=300, anchor=W, padx=20, bg_color=color).pack(side="top")
-                    
-                    customtkinter.CTkLabel(labelFrame, text="Bairro: " + result[5],
-                                        font=("Helvetica", 12),height=20,width=300, anchor=W, padx=20, bg_color=color).pack(side="top")
-                    
-                    customtkinter.CTkLabel(labelFrame, text="CEP: " + result[6],
-                                        font=("Helvetica", 12),height=20,width=300, anchor=W, padx=20, bg_color=color).pack(side="top")
-                    
-                    customtkinter.CTkLabel(labelFrame, text="Telefone: " + result[7],
-                                        font=("Helvetica", 12),height=20,width=300, anchor=W, padx=20, bg_color=color).pack(side="top")
+                    customtkinter.CTkLabel(
+                        labelFrame,
+                        text="Cpf: " + result[0],
+                        font=("Helvetica", 12),
+                        height=40,
+                        width=300,
+                        anchor=SW,
+                        padx=20,
+                        bg_color=color,
+                    ).pack(side="top")
 
-                    customtkinter.CTkLabel(labelFrame, text="Email: " + result[8],
-                                        font=("Helvetica", 12),height=20,width=300, anchor=W, padx=20, bg_color=color).pack(side="top")
-                    
-                    customtkinter.CTkLabel(labelFrame, text="Cargo: " + result[9],
-                                        font=("Helvetica", 12),height=20,width=300, anchor=W, padx=20, bg_color=color).pack(side="top")
-                    
-                    customtkinter.CTkLabel(labelFrame, text="Salário: R$ " + str(result[10]),
-                                        font=("Helvetica", 12),height=40,width=300, anchor=NW, padx=20, bg_color=color).pack(side="top")
-                    
-        customtkinter.CTkButton(framePesquisarFuncionario, 
-                                        text="Pesquisar Funcionário", 
-                                        width=300, height=30,  
-                                        font=("Roboto", 16),
-                                        fg_color="green",
-                                        hover_color="#014B05",
-                                        command=pesquisarFuncionario
-                                        ).place(x=25, y=480)
+                    customtkinter.CTkLabel(
+                        labelFrame,
+                        text="Rg: " + result[1],
+                        font=("Helvetica", 12),
+                        height=20,
+                        width=300,
+                        anchor=W,
+                        padx=20,
+                        bg_color=color,
+                    ).pack(side="top")
 
-        customtkinter.CTkButton(framePesquisarFuncionario, 
-                                        text="Voltar", 
-                                        width=300, height=30,  
-                                        font=("Roboto", 16),
-                                        fg_color="gray",
-                                        hover_color="#090909",
-                                        command=self.voltar
-                                        ).place(x=25, y=520)
+                    customtkinter.CTkLabel(
+                        labelFrame,
+                        text="Nome: " + result[2],
+                        font=("Helvetica", 12),
+                        height=20,
+                        width=300,
+                        anchor=W,
+                        padx=20,
+                        bg_color=color,
+                    ).pack(side="top")
+
+                    customtkinter.CTkLabel(
+                        labelFrame,
+                        text="Endereço: " + result[3] + ", " + str(result[4]),
+                        font=("Helvetica", 12),
+                        height=20,
+                        width=300,
+                        anchor=W,
+                        padx=20,
+                        bg_color=color,
+                    ).pack(side="top")
+
+                    customtkinter.CTkLabel(
+                        labelFrame,
+                        text="Bairro: " + result[5],
+                        font=("Helvetica", 12),
+                        height=20,
+                        width=300,
+                        anchor=W,
+                        padx=20,
+                        bg_color=color,
+                    ).pack(side="top")
+
+                    customtkinter.CTkLabel(
+                        labelFrame,
+                        text="CEP: " + result[6],
+                        font=("Helvetica", 12),
+                        height=20,
+                        width=300,
+                        anchor=W,
+                        padx=20,
+                        bg_color=color,
+                    ).pack(side="top")
+
+                    customtkinter.CTkLabel(
+                        labelFrame,
+                        text="Telefone: " + result[7],
+                        font=("Helvetica", 12),
+                        height=20,
+                        width=300,
+                        anchor=W,
+                        padx=20,
+                        bg_color=color,
+                    ).pack(side="top")
+
+                    customtkinter.CTkLabel(
+                        labelFrame,
+                        text="Email: " + result[8],
+                        font=("Helvetica", 12),
+                        height=20,
+                        width=300,
+                        anchor=W,
+                        padx=20,
+                        bg_color=color,
+                    ).pack(side="top")
+
+                    customtkinter.CTkLabel(
+                        labelFrame,
+                        text="Cargo: " + result[9],
+                        font=("Helvetica", 12),
+                        height=20,
+                        width=300,
+                        anchor=W,
+                        padx=20,
+                        bg_color=color,
+                    ).pack(side="top")
+
+                    customtkinter.CTkLabel(
+                        labelFrame,
+                        text="Salário: R$ " + str(result[10]),
+                        font=("Helvetica", 12),
+                        height=40,
+                        width=300,
+                        anchor=NW,
+                        padx=20,
+                        bg_color=color,
+                    ).pack(side="top")
+
+        customtkinter.CTkButton(
+            framePesquisarFuncionario,
+            text="Pesquisar Funcionário",
+            width=300,
+            height=30,
+            font=("Roboto", 16),
+            fg_color="green",
+            hover_color="#014B05",
+            command=pesquisarFuncionario,
+        ).place(x=25, y=480)
+
+        customtkinter.CTkButton(
+            framePesquisarFuncionario,
+            text="Voltar",
+            width=300,
+            height=30,
+            font=("Roboto", 16),
+            fg_color="gray",
+            hover_color="#090909",
+            command=self.voltar,
+        ).place(x=25, y=520)
 
     def telaCadastrarCliente(self):
         self.frame.pack_forget()
@@ -302,7 +393,7 @@ class Aplicacao:
 
         novoCliente = Cliente()
 
-        y=40
+        y = 40
         campos = [
             ("CPF", novoCliente.cpf),
             ("RG", novoCliente.rg),
@@ -326,7 +417,7 @@ class Aplicacao:
                 width=300,
                 textvariable=var,
             ).place(x=25, y=y)
-            y+=40
+            y += 40
 
         customtkinter.CTkButton(
             frameCliente,
@@ -357,51 +448,60 @@ class Aplicacao:
         self.frame.pack(fill=BOTH, expand=True)
 
         # Frame com os dados do cliente
-        framePesquisarCliente = customtkinter.CTkFrame(self.frame, width=350, height=600)
+        framePesquisarCliente = customtkinter.CTkFrame(
+            self.frame, width=350, height=600
+        )
         framePesquisarCliente.pack(side=RIGHT)
 
         # Frame com os títulos
-        frameLabelPesquisarCliente = customtkinter.CTkFrame(self.frame, width=350, height=600)
+        frameLabelPesquisarCliente = customtkinter.CTkFrame(
+            self.frame, width=350, height=600
+        )
         frameLabelPesquisarCliente.pack(side=LEFT)
 
-        customtkinter.CTkLabel(framePesquisarCliente,
-                                    text="Pesquisar Cliente",
-                                    ).place(x=25, y=5)
+        customtkinter.CTkLabel(
+            framePesquisarCliente,
+            text="Pesquisar Cliente",
+        ).place(x=25, y=5)
 
-        customtkinter.CTkLabel(frameLabelPesquisarCliente,
-                                    text="Nome: ",
-                                    ).place(x=280, y=40)
+        customtkinter.CTkLabel(
+            frameLabelPesquisarCliente,
+            text="Nome: ",
+        ).place(x=280, y=40)
 
         nomePesquisarClienteSave = customtkinter.StringVar()
 
-        customtkinter.CTkEntry(framePesquisarCliente,
-                                                width=300,
-                                                textvariable=nomePesquisarClienteSave,
-                                                ).place(x=25, y=40)
+        customtkinter.CTkEntry(
+            framePesquisarCliente,
+            width=300,
+            textvariable=nomePesquisarClienteSave,
+        ).place(x=25, y=40)
 
-        scrollableClienteFrame = customtkinter.CTkScrollableFrame(framePesquisarCliente, width=280, height=350)
+        scrollableClienteFrame = customtkinter.CTkScrollableFrame(
+            framePesquisarCliente, width=280, height=350
+        )
         scrollableClienteFrame.place(x=25, y=90)
 
         def pesquisarCliente():
-
             # Exclui os dados da pesquisa anterior
             for widget in scrollableClienteFrame.winfo_children():
-                widget.destroy() 
+                widget.destroy()
 
-            searchTerm = nomePesquisarClienteSave.get().strip() 
+            searchTerm = nomePesquisarClienteSave.get().strip()
 
             # Verifica se a pesquisa está vazia
             if searchTerm:
-
                 nome = nomePesquisarClienteSave.get()
-                results = self.banco.pesquisar('cliente', nome)
+                results = self.banco.pesquisar("cliente", nome)
 
                 # Verifica se esxiste resultado
-                if  len(results) < 1:
-                        customtkinter.CTkLabel(scrollableClienteFrame, text="Não foi possível encontar.").pack(side="top")
+                if len(results) < 1:
+                    customtkinter.CTkLabel(
+                        scrollableClienteFrame, text="Não foi possível encontar."
+                    ).pack(side="top")
 
                 # Tratamento e disposição na tela
-                colors = ["#303030", "#343638"] 
+                colors = ["#303030", "#343638"]
                 for i, result in enumerate(results):
                     color_index = i % len(colors)
                     color = colors[color_index]
@@ -409,48 +509,115 @@ class Aplicacao:
                     labelFrame = customtkinter.CTkFrame(scrollableClienteFrame)
                     labelFrame.pack(side="top")
 
-                    customtkinter.CTkLabel(labelFrame, text="CPF: " + result[0],
-                                        font=("Helvetica", 12),height=40,width=300, anchor=SW, padx=20, bg_color=color).pack(side="top")
-                    
-                    customtkinter.CTkLabel(labelFrame, text="RG: " + result[1],
-                                        font=("Helvetica", 12),height=20,width=300, anchor=SW, padx=20, bg_color=color).pack(side="top")
-                    
-                    customtkinter.CTkLabel(labelFrame, text="Nome: " + result[2],
-                                        font=("Helvetica", 12),height=20,width=300, anchor=W, padx=20, bg_color=color).pack(side="top")
-                    
-                    customtkinter.CTkLabel(labelFrame, text="Endereço: " + result[3] + ", " + str(result[4]),
-                                        font=("Helvetica", 12),height=20,width=300, anchor=W, padx=20, bg_color=color).pack(side="top")
-                    
-                    customtkinter.CTkLabel(labelFrame, text="Bairro: " + result[5],
-                                        font=("Helvetica", 12),height=20,width=300, anchor=W, padx=20, bg_color=color).pack(side="top")
-                    
-                    customtkinter.CTkLabel(labelFrame, text="CEP: " + result[6],
-                                        font=("Helvetica", 12),height=20,width=300, anchor=W, padx=20, bg_color=color).pack(side="top")
-                    
-                    customtkinter.CTkLabel(labelFrame, text="Telefone: " + result[7],
-                                        font=("Helvetica", 12),height=20,width=300, anchor=W, padx=20, bg_color=color).pack(side="top")
-                    
-                    customtkinter.CTkLabel(labelFrame, text="Email: " + result[8],
-                                        font=("Helvetica", 12),height=40,width=300, anchor=NW, padx=20, bg_color=color).pack(side="top")
+                    customtkinter.CTkLabel(
+                        labelFrame,
+                        text="CPF: " + result[0],
+                        font=("Helvetica", 12),
+                        height=40,
+                        width=300,
+                        anchor=SW,
+                        padx=20,
+                        bg_color=color,
+                    ).pack(side="top")
 
+                    customtkinter.CTkLabel(
+                        labelFrame,
+                        text="RG: " + result[1],
+                        font=("Helvetica", 12),
+                        height=20,
+                        width=300,
+                        anchor=SW,
+                        padx=20,
+                        bg_color=color,
+                    ).pack(side="top")
 
-        customtkinter.CTkButton(framePesquisarCliente, 
-                                    text="Pesquisar Cliente", 
-                                    width=300, height=30,  
-                                    font=("Roboto", 16),
-                                    fg_color="green",
-                                    hover_color="#014B05",
-                                    command=pesquisarCliente
-                                    ).place(x=25, y=480)
+                    customtkinter.CTkLabel(
+                        labelFrame,
+                        text="Nome: " + result[2],
+                        font=("Helvetica", 12),
+                        height=20,
+                        width=300,
+                        anchor=W,
+                        padx=20,
+                        bg_color=color,
+                    ).pack(side="top")
 
-        customtkinter.CTkButton(framePesquisarCliente, 
-                                    text="Voltar", 
-                                    width=300, height=30,  
-                                    font=("Roboto", 16),
-                                    fg_color="gray",
-                                    hover_color="#090909",
-                                    command=self.voltar
-                                    ).place(x=25, y=520)
+                    customtkinter.CTkLabel(
+                        labelFrame,
+                        text="Endereço: " + result[3] + ", " + str(result[4]),
+                        font=("Helvetica", 12),
+                        height=20,
+                        width=300,
+                        anchor=W,
+                        padx=20,
+                        bg_color=color,
+                    ).pack(side="top")
+
+                    customtkinter.CTkLabel(
+                        labelFrame,
+                        text="Bairro: " + result[5],
+                        font=("Helvetica", 12),
+                        height=20,
+                        width=300,
+                        anchor=W,
+                        padx=20,
+                        bg_color=color,
+                    ).pack(side="top")
+
+                    customtkinter.CTkLabel(
+                        labelFrame,
+                        text="CEP: " + result[6],
+                        font=("Helvetica", 12),
+                        height=20,
+                        width=300,
+                        anchor=W,
+                        padx=20,
+                        bg_color=color,
+                    ).pack(side="top")
+
+                    customtkinter.CTkLabel(
+                        labelFrame,
+                        text="Telefone: " + result[7],
+                        font=("Helvetica", 12),
+                        height=20,
+                        width=300,
+                        anchor=W,
+                        padx=20,
+                        bg_color=color,
+                    ).pack(side="top")
+
+                    customtkinter.CTkLabel(
+                        labelFrame,
+                        text="Email: " + result[8],
+                        font=("Helvetica", 12),
+                        height=40,
+                        width=300,
+                        anchor=NW,
+                        padx=20,
+                        bg_color=color,
+                    ).pack(side="top")
+
+        customtkinter.CTkButton(
+            framePesquisarCliente,
+            text="Pesquisar Cliente",
+            width=300,
+            height=30,
+            font=("Roboto", 16),
+            fg_color="green",
+            hover_color="#014B05",
+            command=pesquisarCliente,
+        ).place(x=25, y=480)
+
+        customtkinter.CTkButton(
+            framePesquisarCliente,
+            text="Voltar",
+            width=300,
+            height=30,
+            font=("Roboto", 16),
+            fg_color="gray",
+            hover_color="#090909",
+            command=self.voltar,
+        ).place(x=25, y=520)
 
     def telaCadastrarVeiculo(self):
         self.frame.pack_forget()
@@ -465,9 +632,7 @@ class Aplicacao:
         frameLabelVeiculo.pack(side=LEFT)
 
         customtkinter.CTkLabel(
-            frameVeiculo,
-            text="Cadastrar Veículo",
-            font=("Roboto", 16)
+            frameVeiculo, text="Cadastrar Veículo", font=("Roboto", 16)
         ).place(x=25, y=5)
 
         novoVeiculo = Veiculo()
@@ -482,7 +647,7 @@ class Aplicacao:
             ("Km Rodado", novoVeiculo.kmRodados),
         ]
 
-        y=40
+        y = 40
         for label, var in campos:
             customtkinter.CTkLabel(
                 frameLabelVeiculo,
@@ -494,7 +659,7 @@ class Aplicacao:
                 width=300,
                 textvariable=var,
             ).place(x=25, y=y)
-            y+=40
+            y += 40
 
         customtkinter.CTkButton(
             frameVeiculo,
@@ -525,50 +690,59 @@ class Aplicacao:
         self.frame.pack(fill=BOTH, expand=True)
 
         # Frame com os dados do veiculo
-        framePesquisarVeiculo = customtkinter.CTkFrame(self.frame, width=350, height=600)
+        framePesquisarVeiculo = customtkinter.CTkFrame(
+            self.frame, width=350, height=600
+        )
         framePesquisarVeiculo.pack(side=RIGHT)
 
         # Frame com os títulos
-        frameLabelPesquisarVeiculo = customtkinter.CTkFrame(self.frame, width=350, height=600)
+        frameLabelPesquisarVeiculo = customtkinter.CTkFrame(
+            self.frame, width=350, height=600
+        )
         frameLabelPesquisarVeiculo.pack(side=LEFT)
 
-        customtkinter.CTkLabel(framePesquisarVeiculo,
-                                        text="Pesquisar Veículo",
-                                        ).place(x=25, y=5)
+        customtkinter.CTkLabel(
+            framePesquisarVeiculo,
+            text="Pesquisar Veículo",
+        ).place(x=25, y=5)
 
-        customtkinter.CTkLabel(frameLabelPesquisarVeiculo,
-                                        text="Modelo: ",
-                                        ).place(x=280, y=40)
-        
+        customtkinter.CTkLabel(
+            frameLabelPesquisarVeiculo,
+            text="Modelo: ",
+        ).place(x=280, y=40)
+
         modeloVeiculoPesquisarSave = customtkinter.StringVar()
 
-        customtkinter.CTkEntry(framePesquisarVeiculo,
-                                                    width=300,
-                                                    textvariable=modeloVeiculoPesquisarSave,
-                                                    ).place(x=25, y=40)
+        customtkinter.CTkEntry(
+            framePesquisarVeiculo,
+            width=300,
+            textvariable=modeloVeiculoPesquisarSave,
+        ).place(x=25, y=40)
 
-        scrollableCarFrame = customtkinter.CTkScrollableFrame(framePesquisarVeiculo, width=280, height=350)
+        scrollableCarFrame = customtkinter.CTkScrollableFrame(
+            framePesquisarVeiculo, width=280, height=350
+        )
         scrollableCarFrame.place(x=25, y=90)
 
         def pesquisarVeiculo():
-
-            #Exclui os dados da pesquisa anterior
+            # Exclui os dados da pesquisa anterior
             for widget in scrollableCarFrame.winfo_children():
-                widget.destroy() 
-            
-            searchTerm = modeloVeiculoPesquisarSave.get().strip() 
+                widget.destroy()
 
-            #Verifica se a pesquisa está vazia
+            searchTerm = modeloVeiculoPesquisarSave.get().strip()
+
+            # Verifica se a pesquisa está vazia
             if searchTerm:
+                results = self.banco.pesquisar("veiculo", searchTerm, "modelo")
 
-                results = self.banco.pesquisar('veiculo', searchTerm, 'modelo')
+                # Verifica se esxiste resultado
+                if len(results) < 1:
+                    customtkinter.CTkLabel(
+                        scrollableCarFrame, text="Não foi possível encontar."
+                    ).pack(side="top")
 
-                #Verifica se esxiste resultado
-                if  len(results) < 1:
-                        customtkinter.CTkLabel(scrollableCarFrame, text="Não foi possível encontar.").pack(side="top")
-
-                #Tratamento e disposição na tela
-                colors = ["#303030", "#343638"] 
+                # Tratamento e disposição na tela
+                colors = ["#303030", "#343638"]
                 for i, result in enumerate(results):
                     colorIndex = i % len(colors)
                     color = colors[colorIndex]
@@ -576,32 +750,68 @@ class Aplicacao:
                     labelFrame = customtkinter.CTkFrame(scrollableCarFrame)
                     labelFrame.pack(side="top")
 
-                    customtkinter.CTkLabel(labelFrame, text="Modelo: " + result[0] + "  " + result[3] + "  " + (str(result[2]).split("-"))[0], font=("Helvetica", 12), 
-                                            height=40, width=625, anchor=SW, padx=20, bg_color=color).pack(side="top")
-                    
-                    customtkinter.CTkLabel(labelFrame, text="Marca: " + result[1]+ " - Placa: " + result[5], font=("Helvetica", 12), 
-                                            height=20, width=625, anchor=W, padx=20, bg_color=color).pack(side="top")
-                    
-                    customtkinter.CTkLabel(labelFrame, text="Kilometragem: " + str(result[6]) + " - Preço: R$ " + str(result[4]), font=("Helvetica", 12), 
-                                            height=40, width=625, anchor=NW, padx=20, bg_color=color).pack(side="top")
+                    customtkinter.CTkLabel(
+                        labelFrame,
+                        text="Modelo: "
+                        + result[0]
+                        + "  "
+                        + result[3]
+                        + "  "
+                        + (str(result[2]).split("-"))[0],
+                        font=("Helvetica", 12),
+                        height=40,
+                        width=625,
+                        anchor=SW,
+                        padx=20,
+                        bg_color=color,
+                    ).pack(side="top")
 
-        customtkinter.CTkButton(framePesquisarVeiculo,
-                                        text="Pesquisar Veículo",
-                                        width=300, height=30,
-                                        font=("Roboto", 16),
-                                        fg_color="green",
-                                        hover_color="#014B05",
-                                        command=pesquisarVeiculo
-                                        ).place(x=25, y=480)
-        
-        customtkinter.CTkButton(framePesquisarVeiculo, 
-                                        text="Voltar", 
-                                        width=300, height=30,  
-                                        font=("Roboto", 16),
-                                        fg_color="gray",
-                                        hover_color="#090909",
-                                        command=self.voltar
-                                        ).place(x=25, y=520)
+                    customtkinter.CTkLabel(
+                        labelFrame,
+                        text="Marca: " + result[1] + " - Placa: " + result[5],
+                        font=("Helvetica", 12),
+                        height=20,
+                        width=625,
+                        anchor=W,
+                        padx=20,
+                        bg_color=color,
+                    ).pack(side="top")
+
+                    customtkinter.CTkLabel(
+                        labelFrame,
+                        text="Kilometragem: "
+                        + str(result[6])
+                        + " - Preço: R$ "
+                        + str(result[4]),
+                        font=("Helvetica", 12),
+                        height=40,
+                        width=625,
+                        anchor=NW,
+                        padx=20,
+                        bg_color=color,
+                    ).pack(side="top")
+
+        customtkinter.CTkButton(
+            framePesquisarVeiculo,
+            text="Pesquisar Veículo",
+            width=300,
+            height=30,
+            font=("Roboto", 16),
+            fg_color="green",
+            hover_color="#014B05",
+            command=pesquisarVeiculo,
+        ).place(x=25, y=480)
+
+        customtkinter.CTkButton(
+            framePesquisarVeiculo,
+            text="Voltar",
+            width=300,
+            height=30,
+            font=("Roboto", 16),
+            fg_color="gray",
+            hover_color="#090909",
+            command=self.voltar,
+        ).place(x=25, y=520)
 
     def telaHistoricoVendas(self):
         self.frame.pack_forget()
@@ -613,27 +823,32 @@ class Aplicacao:
         frameHistoricoVendas = customtkinter.CTkFrame(self.frame, width=700, height=600)
         frameHistoricoVendas.pack(side=RIGHT)
 
-        customtkinter.CTkLabel(master=frameHistoricoVendas,
-                                        text="Histórico de vendas",
-                                        ).place(x=25, y=5)
-        
-        scrollableHistoricoFrame = customtkinter.CTkScrollableFrame(frameHistoricoVendas, width=625 , height=400)
+        customtkinter.CTkLabel(
+            master=frameHistoricoVendas,
+            text="Histórico de vendas",
+        ).place(x=25, y=5)
+
+        scrollableHistoricoFrame = customtkinter.CTkScrollableFrame(
+            frameHistoricoVendas, width=625, height=400
+        )
         scrollableHistoricoFrame.place(x=25, y=40)
 
         def pesquisarHistorico():
-
             # Exclui os dados da pesquisa anterior
             for widget in scrollableHistoricoFrame.winfo_children():
-                widget.destroy() 
+                widget.destroy()
 
-            results = self.banco.pesquisar('venda')
+            results = self.banco.pesquisar("venda")
 
-            #Verifica se esxiste resultado
-            if  len(results) < 1:
-                    customtkinter.CTkLabel(scrollableHistoricoFrame, text="Ainda não existem vendas registradas.").pack(side="top")
+            # Verifica se esxiste resultado
+            if len(results) < 1:
+                customtkinter.CTkLabel(
+                    scrollableHistoricoFrame,
+                    text="Ainda não existem vendas registradas.",
+                ).pack(side="top")
 
-            #Tratamento e disposição na tela
-            colors = ["#303030", "#343638"] 
+            # Tratamento e disposição na tela
+            colors = ["#303030", "#343638"]
             for i, result in enumerate(results):
                 colorIndex = i % len(colors)
                 color = colors[colorIndex]
@@ -641,39 +856,83 @@ class Aplicacao:
                 labelFrame = customtkinter.CTkFrame(scrollableHistoricoFrame)
                 labelFrame.pack(side="top")
 
-                customtkinter.CTkLabel(labelFrame, text="CPF Cliente: " + result[0], font=("Helvetica", 12), 
-                                        height=40, width=625, anchor=SW, padx=20, bg_color=color).pack(side="top")
-                
-                customtkinter.CTkLabel(labelFrame, text="CPF Funcionario: " + result[1], font=("Helvetica", 12), 
-                                        height=20, width=625, anchor=W, padx=20, bg_color=color).pack(side="top")
-                
-                customtkinter.CTkLabel(labelFrame, text="Data da venda: " + result[2], font=("Helvetica", 12), 
-                                        height=20, width=625, anchor=W, padx=20, bg_color=color).pack(side="top")
-                
-                customtkinter.CTkLabel(labelFrame, text="Placa do carro comprado: " + result[3], font=("Helvetica", 12), 
-                                        height=20, width=625, anchor=W, padx=20, bg_color=color).pack(side="top")
-                
-                customtkinter.CTkLabel(labelFrame, text="Id: " + str(result[4]), font=("Helvetica", 12), 
-                                        height=40, width=625, anchor=NW, padx=20, bg_color=color).pack(side="top")
+                customtkinter.CTkLabel(
+                    labelFrame,
+                    text="CPF Cliente: " + result[0],
+                    font=("Helvetica", 12),
+                    height=40,
+                    width=625,
+                    anchor=SW,
+                    padx=20,
+                    bg_color=color,
+                ).pack(side="top")
 
-        customtkinter.CTkButton(master=frameHistoricoVendas, 
-                                text="Exibir Histórico", 
-                                width=300, height=30,  
-                                font=("Roboto", 16),
-                                fg_color="green",
-                                hover_color="#014B05",
-                                command=pesquisarHistorico
-                                ).place(x=25, y=480)
+                customtkinter.CTkLabel(
+                    labelFrame,
+                    text="CPF Funcionario: " + result[1],
+                    font=("Helvetica", 12),
+                    height=20,
+                    width=625,
+                    anchor=W,
+                    padx=20,
+                    bg_color=color,
+                ).pack(side="top")
 
-        customtkinter.CTkButton(master=frameHistoricoVendas, 
-                                text="Voltar", 
-                                width=300, height=30,  
-                                font=("Roboto", 16),
-                                fg_color="gray",
-                                hover_color="#090909",
-                                command=self.voltar
-                                ).place(x=25, y=520)
-        
+                customtkinter.CTkLabel(
+                    labelFrame,
+                    text="Data da venda: " + result[2],
+                    font=("Helvetica", 12),
+                    height=20,
+                    width=625,
+                    anchor=W,
+                    padx=20,
+                    bg_color=color,
+                ).pack(side="top")
+
+                customtkinter.CTkLabel(
+                    labelFrame,
+                    text="Placa do carro comprado: " + result[3],
+                    font=("Helvetica", 12),
+                    height=20,
+                    width=625,
+                    anchor=W,
+                    padx=20,
+                    bg_color=color,
+                ).pack(side="top")
+
+                customtkinter.CTkLabel(
+                    labelFrame,
+                    text="Id: " + str(result[4]),
+                    font=("Helvetica", 12),
+                    height=40,
+                    width=625,
+                    anchor=NW,
+                    padx=20,
+                    bg_color=color,
+                ).pack(side="top")
+
+        customtkinter.CTkButton(
+            master=frameHistoricoVendas,
+            text="Exibir Histórico",
+            width=300,
+            height=30,
+            font=("Roboto", 16),
+            fg_color="green",
+            hover_color="#014B05",
+            command=pesquisarHistorico,
+        ).place(x=25, y=480)
+
+        customtkinter.CTkButton(
+            master=frameHistoricoVendas,
+            text="Voltar",
+            width=300,
+            height=30,
+            font=("Roboto", 16),
+            fg_color="gray",
+            hover_color="#090909",
+            command=self.voltar,
+        ).place(x=25, y=520)
+
     def telaRealizarVenda(self):
         self.frame.pack_forget()
 
@@ -693,7 +952,7 @@ class Aplicacao:
 
         novaVenda = Venda()
 
-        y=40
+        y = 40
         campos = [
             ("CPF Cliente", novaVenda.cpfCliente),
             ("CPF Funcionário", novaVenda.cpfFuncionario),
@@ -721,7 +980,10 @@ class Aplicacao:
             font=("Roboto", 16),
             fg_color="green",
             hover_color="#014B05",
-            command=lambda: (novaVenda.dataVenda.set(self.getTimestamp()), self.cadastrar('venda', novaVenda)),
+            command=lambda: (
+                novaVenda.dataVenda.set(self.getTimestamp()),
+                self.cadastrar("venda", novaVenda),
+            ),
         ).place(x=25, y=480)
 
         customtkinter.CTkButton(
@@ -741,6 +1003,8 @@ class Aplicacao:
 
     def getTimestamp(self):
         from datetime import datetime
-        return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+        return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
 
 app = Aplicacao()

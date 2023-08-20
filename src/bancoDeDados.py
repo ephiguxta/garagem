@@ -1,9 +1,10 @@
 import sqlite3
 from os.path import exists
 
-caminho = 'sqlScripts/'
+caminho = "sqlScripts/"
 
-class BancoDeDados():
+
+class BancoDeDados:
     """
     Cria e manipula o banco de dados
     """
@@ -24,7 +25,7 @@ class BancoDeDados():
             self.conectar()
 
         else:
-            self.executarScript('createDb.sql')
+            self.executarScript("createDb.sql")
 
     def conectar(self):
         self.conexao = sqlite3.connect(self.database)
@@ -54,7 +55,7 @@ class BancoDeDados():
 
         self.fecharConexao()
 
-    def executarComando(self, cmd, dados = None):
+    def executarComando(self, cmd, dados=None):
         if not self.conectado:
             self.conectar()
 
@@ -78,8 +79,7 @@ class BancoDeDados():
             return False
 
         else:
-            
-            if nomeTabela == 'venda':
+            if nomeTabela == "venda":
                 sql = f"insert into {nomeTabela} (cpf_cliente, cpf_funcionario, data_venda, placa_veiculo) values (?, ?, ?, ?)"
             else:
                 nParams = self.contarParametros(nomeTabela)
@@ -110,30 +110,29 @@ class BancoDeDados():
         pois a tabela A contém quatro campos
         """
 
-        caracteres = '?' * quantidade
+        caracteres = "?" * quantidade
 
-        caracteres = caracteres.replace('??', '?, ?')
-        caracteres = caracteres.replace('??', '?, ?')
+        caracteres = caracteres.replace("??", "?, ?")
+        caracteres = caracteres.replace("??", "?, ?")
 
         return caracteres
 
     def validaTabela(self, nomeTabela):
         # interagimos com essas tabelas na interface gráfica
-        tabelas = ['funcionario', 'cliente', 'veiculo', 'venda', 'historico']
+        tabelas = ["funcionario", "cliente", "veiculo", "venda", "historico"]
         if nomeTabela not in tabelas:
             return False
         return True
 
-    def pesquisar(self, tabela, textoPesquisa = '', coluna = 'nome'):
-
+    def pesquisar(self, tabela, textoPesquisa="", coluna="nome"):
         # dependendo da tabela pode precisar de mais parâmetros
         #
 
-        if tabela == 'venda':
+        if tabela == "venda":
             comando = f"select * from {tabela}"
         else:
             comando = f"select * from {tabela} where {coluna} like '%{textoPesquisa}%'"
-        
+
         res = self.executarComando(comando)
         res = res.fetchall()
 

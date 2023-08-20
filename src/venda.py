@@ -1,5 +1,6 @@
 import customtkinter
 
+
 class Venda:
     def __init__(self):
         self.cpfCliente = customtkinter.StringVar()

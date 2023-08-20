@@ -1,5 +1,6 @@
 import customtkinter
 
+
 class Veiculo:
     def __init__(self):
         self.modelo = customtkinter.StringVar()
