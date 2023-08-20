@@ -65,7 +65,6 @@ class BancoDeDados:
         #
         if dados is None:
             res = self.cursor.execute(cmd)
-
         else:
             res = self.cursor.execute(cmd, dados)
 

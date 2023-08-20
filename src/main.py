@@ -4,6 +4,7 @@ from sys import path
 from PIL import Image
 import customtkinter
 from bancoDeDados import BancoDeDados
+import sqlite3
 
 from funcionario import Funcionario
 from cliente import Cliente
@@ -84,25 +85,24 @@ class Aplicacao:
             y += 40
 
     def cadastrar(self, tabela, entryObject):
+
         atributos = vars(entryObject)
         valores = []
 
         for valor in atributos.values():
-            valores.append(valor.get())
+            valores.append(valor)
 
-        # Inserção no BD
-        self.banco.inserirDados(tabela, valores)
+        try:
+            self.banco.inserirDados(tabela, valores)
+            tkinter.messagebox.showinfo("Sucesso", "O cadastro foi realizado com sucesso!")
 
-        # Limpar os valores das entradas após o cadastro
-        for valor in atributos.values():
-            valor.set("")
+        except sqlite3.IntegrityError:
+            tkinter.messagebox.showerror('Falha', 'Usuário já cadastrado')
 
-        tkinter.messagebox.showinfo("Sucesso", "O cadastro foi realizado com sucesso!")
-
-    # TODO
-    # 1. Validar os dados antes da inserção no banco
-    # 2. Verificar bancoDeDados.py
-
+        except sqlite3.ProgrammingError:
+            tkinter.messagebox.showerror('Falha', 'Preencha todos os campos')
+        
+            
     def telaCadastrarFuncionario(self):
         self.frame.pack_forget()
 
@@ -127,30 +127,38 @@ class Aplicacao:
         y = 40
 
         campos = [
-            ("CPF", novoFuncionario.cpf),
-            ("RG", novoFuncionario.rg),
-            ("Nome", novoFuncionario.nome),
-            ("Endereço", novoFuncionario.endereco),
-            ("Número", novoFuncionario.numero),
-            ("Bairro", novoFuncionario.bairro),
-            ("CEP", novoFuncionario.cep),
-            ("Email", novoFuncionario.email),
-            ("Telefone", novoFuncionario.telefone),
-            ("Cargo", novoFuncionario.cargo),
-            ("Salário", novoFuncionario.salario),
+            ("Cpf", "Cpf"),
+            ("Rg", "Rg"),
+            ("Nome", "Nome"),
+            ("Endereço", "Endereco"),
+            ("Número", "Numero"),
+            ("Bairro", "Bairro"),
+            ("Cep", "Cep"),
+            ("Email", "Email"),
+            ("Telefone", "Telefone"),
+            ("Cargo", "Cargo"),
+            ("Salário", "Salario"),
         ]
 
-        for label, var in campos:
+        for label, nomeAtributo in campos:
+            nomeSetter = "set" + nomeAtributo
+            setter = getattr(novoFuncionario, nomeSetter)
+
             customtkinter.CTkLabel(
                 frameLabelFuncionario,
                 text=f"{label}: ",
             ).place(x=280, y=y)
 
-            customtkinter.CTkEntry(
+            var = customtkinter.StringVar()
+
+            entry = customtkinter.CTkEntry(
                 frameFuncionario,
                 width=300,
                 textvariable=var,
-            ).place(x=25, y=y)
+            )
+            entry.place(x=25, y=y)
+
+            entry.bind("<KeyRelease>", lambda event, s=setter, v=var: s(v.get()))
             y += 40
 
         customtkinter.CTkButton(
@@ -161,7 +169,7 @@ class Aplicacao:
             font=("Roboto", 16),
             fg_color="green",
             hover_color="#014B05",
-            command=lambda: self.cadastrar("funcionario", novoFuncionario),
+            command=lambda: (self.cadastrar("funcionario", novoFuncionario), self.telaCadastrarFuncionario())
         ).place(x=25, y=480)
 
         customtkinter.CTkButton(
@@ -395,29 +403,37 @@ class Aplicacao:
 
         y = 40
         campos = [
-            ("CPF", novoCliente.cpf),
-            ("RG", novoCliente.rg),
-            ("Nome", novoCliente.nome),
-            ("Endereço", novoCliente.endereco),
-            ("Número", novoCliente.numero),
-            ("Bairro", novoCliente.bairro),
-            ("CEP", novoCliente.cep),
-            ("Telefone", novoCliente.telefone),
-            ("Email", novoCliente.email),
+            ('CPF', 'Cpf'),
+            ('RG', 'Rg'),
+            ('Nome', 'Nome'),
+            ('Endereço', 'Endereco'),
+            ('Número', 'Numero'),
+            ('Bairro', 'Bairro'),
+            ('CEP', 'Cep'),
+            ('Telefone', 'Telefone'),
+            ('Email', 'Email')
         ]
 
-        for label, var in campos:
+        for label, nomeAtributo in campos:
+            nomeSetter = "set" + nomeAtributo
+            setter = getattr(novoCliente, nomeSetter)
+
             customtkinter.CTkLabel(
                 frameLabelCliente,
                 text=f"{label}: ",
             ).place(x=280, y=y)
 
-            customtkinter.CTkEntry(
+            var = customtkinter.StringVar()
+
+            entry=customtkinter.CTkEntry(
                 frameCliente,
                 width=300,
                 textvariable=var,
-            ).place(x=25, y=y)
+            )
+            entry.place(x=25, y=y)
             y += 40
+
+            entry.bind("<KeyRelease>", lambda event, s=setter, v=var: s(v.get()))
 
         customtkinter.CTkButton(
             frameCliente,
@@ -427,7 +443,7 @@ class Aplicacao:
             font=("Roboto", 16),
             fg_color="green",
             hover_color="#014B05",
-            command=lambda: self.cadastrar("cliente", novoCliente),
+            command=lambda: (self.cadastrar("cliente", novoCliente), self.telaCadastrarCliente()),
         ).place(x=25, y=480)
 
         customtkinter.CTkButton(
@@ -638,28 +654,36 @@ class Aplicacao:
         novoVeiculo = Veiculo()
 
         campos = [
-            ("Modelo", novoVeiculo.modelo),
-            ("Marca", novoVeiculo.marca),
-            ("Ano", novoVeiculo.ano),
-            ("Cor", novoVeiculo.cor),
-            ("Preço", novoVeiculo.preco),
-            ("Placa", novoVeiculo.placa),
-            ("Km Rodado", novoVeiculo.kmRodados),
+            ("Modelo", 'Modelo'),
+            ("Marca", 'Marca'),
+            ("Ano", 'Ano'),
+            ("Cor", 'Cor'),
+            ("Preço", 'Preco'),
+            ("Placa", 'Placa'),
+            ("Km Rodados", 'KmRodados'),
         ]
 
         y = 40
-        for label, var in campos:
+        for label, nomeAtributo in campos:
+            nomeSetter = "set" + nomeAtributo
+            setter = getattr(novoVeiculo, nomeSetter)
+
             customtkinter.CTkLabel(
                 frameLabelVeiculo,
                 text=f"{label}: ",
             ).place(x=280, y=y)
 
-            customtkinter.CTkEntry(
+            var = customtkinter.StringVar()
+
+            entry = customtkinter.CTkEntry(
                 frameVeiculo,
                 width=300,
                 textvariable=var,
-            ).place(x=25, y=y)
+            )
+            entry.place(x=25, y=y)
             y += 40
+
+            entry.bind("<KeyRelease>", lambda event, s=setter, v=var: s(v.get()))
 
         customtkinter.CTkButton(
             frameVeiculo,
@@ -669,7 +693,7 @@ class Aplicacao:
             font=("Roboto", 16),
             fg_color="green",
             hover_color="#014B05",
-            command=lambda: self.cadastrar("veiculo", novoVeiculo),
+            command=lambda: (self.cadastrar("veiculo", novoVeiculo), self.telaCadastrarVeiculo()),
         ).place(x=25, y=480)
 
         customtkinter.CTkButton(
@@ -954,23 +978,31 @@ class Aplicacao:
 
         y = 40
         campos = [
-            ("CPF Cliente", novaVenda.cpfCliente),
-            ("CPF Funcionário", novaVenda.cpfFuncionario),
-            ("Placa Veículo", novaVenda.placaVeiculo),
+            ("CPF Cliente", 'CpfCliente'),
+            ("CPF Funcionário", 'CpfFuncionario'),
+            ("Placa Veículo", 'PlacaVeiculo'),
         ]
 
-        for label, var in campos:
+        for label, nomeAtributo in campos:
+            nomeSetter = "set" + nomeAtributo
+            setter = getattr(novaVenda, nomeSetter)
+
             customtkinter.CTkLabel(
                 frameLabelVenda,
                 text=f"{label}: ",
             ).place(x=240, y=y)
 
-            customtkinter.CTkEntry(
+            var = customtkinter.StringVar()
+
+            entry = customtkinter.CTkEntry(
                 frameVenda,
                 width=300,
                 textvariable=var,
-            ).place(x=25, y=y)
+            )
+            entry.place(x=25, y=y)
             y += 40
+
+            entry.bind("<KeyRelease>", lambda event, s=setter, v=var: s(v.get()))
 
         customtkinter.CTkButton(
             master=frameVenda,
@@ -981,8 +1013,9 @@ class Aplicacao:
             fg_color="green",
             hover_color="#014B05",
             command=lambda: (
-                novaVenda.dataVenda.set(self.getTimestamp()),
+                novaVenda.setDataVenda(self.getTimestamp()),
                 self.cadastrar("venda", novaVenda),
+                self.telaRealizarVenda()
             ),
         ).place(x=25, y=480)
 
@@ -1005,6 +1038,5 @@ class Aplicacao:
         from datetime import datetime
 
         return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
 
 app = Aplicacao()
