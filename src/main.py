@@ -85,7 +85,6 @@ class Aplicacao:
             y += 40
 
     def cadastrar(self, tabela, entryObject):
-
         atributos = vars(entryObject)
         valores = []
 
@@ -94,15 +93,16 @@ class Aplicacao:
 
         try:
             self.banco.inserirDados(tabela, valores)
-            tkinter.messagebox.showinfo("Sucesso", "O cadastro foi realizado com sucesso!")
+            tkinter.messagebox.showinfo(
+                "Sucesso", "O cadastro foi realizado com sucesso!"
+            )
 
         except sqlite3.IntegrityError:
-            tkinter.messagebox.showerror('Falha', 'Usuário já cadastrado')
+            tkinter.messagebox.showerror("Falha", "Usuário já cadastrado")
 
         except sqlite3.ProgrammingError:
-            tkinter.messagebox.showerror('Falha', 'Preencha todos os campos')
-        
-            
+            tkinter.messagebox.showerror("Falha", "Preencha todos os campos")
+
     def telaCadastrarFuncionario(self):
         self.frame.pack_forget()
 
@@ -169,7 +169,10 @@ class Aplicacao:
             font=("Roboto", 16),
             fg_color="green",
             hover_color="#014B05",
-            command=lambda: (self.cadastrar("funcionario", novoFuncionario), self.telaCadastrarFuncionario())
+            command=lambda: (
+                self.cadastrar("funcionario", novoFuncionario),
+                self.telaCadastrarFuncionario(),
+            ),
         ).place(x=25, y=480)
 
         customtkinter.CTkButton(
@@ -403,15 +406,15 @@ class Aplicacao:
 
         y = 40
         campos = [
-            ('CPF', 'Cpf'),
-            ('RG', 'Rg'),
-            ('Nome', 'Nome'),
-            ('Endereço', 'Endereco'),
-            ('Número', 'Numero'),
-            ('Bairro', 'Bairro'),
-            ('CEP', 'Cep'),
-            ('Telefone', 'Telefone'),
-            ('Email', 'Email')
+            ("CPF", "Cpf"),
+            ("RG", "Rg"),
+            ("Nome", "Nome"),
+            ("Endereço", "Endereco"),
+            ("Número", "Numero"),
+            ("Bairro", "Bairro"),
+            ("CEP", "Cep"),
+            ("Telefone", "Telefone"),
+            ("Email", "Email"),
         ]
 
         for label, nomeAtributo in campos:
@@ -425,7 +428,7 @@ class Aplicacao:
 
             var = customtkinter.StringVar()
 
-            entry=customtkinter.CTkEntry(
+            entry = customtkinter.CTkEntry(
                 frameCliente,
                 width=300,
                 textvariable=var,
@@ -443,7 +446,10 @@ class Aplicacao:
             font=("Roboto", 16),
             fg_color="green",
             hover_color="#014B05",
-            command=lambda: (self.cadastrar("cliente", novoCliente), self.telaCadastrarCliente()),
+            command=lambda: (
+                self.cadastrar("cliente", novoCliente),
+                self.telaCadastrarCliente(),
+            ),
         ).place(x=25, y=480)
 
         customtkinter.CTkButton(
@@ -654,13 +660,13 @@ class Aplicacao:
         novoVeiculo = Veiculo()
 
         campos = [
-            ("Modelo", 'Modelo'),
-            ("Marca", 'Marca'),
-            ("Ano", 'Ano'),
-            ("Cor", 'Cor'),
-            ("Preço", 'Preco'),
-            ("Placa", 'Placa'),
-            ("Km Rodados", 'KmRodados'),
+            ("Modelo", "Modelo"),
+            ("Marca", "Marca"),
+            ("Ano", "Ano"),
+            ("Cor", "Cor"),
+            ("Preço", "Preco"),
+            ("Placa", "Placa"),
+            ("Km Rodados", "KmRodados"),
         ]
 
         y = 40
@@ -693,7 +699,10 @@ class Aplicacao:
             font=("Roboto", 16),
             fg_color="green",
             hover_color="#014B05",
-            command=lambda: (self.cadastrar("veiculo", novoVeiculo), self.telaCadastrarVeiculo()),
+            command=lambda: (
+                self.cadastrar("veiculo", novoVeiculo),
+                self.telaCadastrarVeiculo(),
+            ),
         ).place(x=25, y=480)
 
         customtkinter.CTkButton(
@@ -978,9 +987,9 @@ class Aplicacao:
 
         y = 40
         campos = [
-            ("CPF Cliente", 'CpfCliente'),
-            ("CPF Funcionário", 'CpfFuncionario'),
-            ("Placa Veículo", 'PlacaVeiculo'),
+            ("CPF Cliente", "CpfCliente"),
+            ("CPF Funcionário", "CpfFuncionario"),
+            ("Placa Veículo", "PlacaVeiculo"),
         ]
 
         for label, nomeAtributo in campos:
@@ -1015,7 +1024,7 @@ class Aplicacao:
             command=lambda: (
                 novaVenda.setDataVenda(self.getTimestamp()),
                 self.cadastrar("venda", novaVenda),
-                self.telaRealizarVenda()
+                self.telaRealizarVenda(),
             ),
         ).place(x=25, y=480)
 
@@ -1038,5 +1047,6 @@ class Aplicacao:
         from datetime import datetime
 
         return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
 
 app = Aplicacao()

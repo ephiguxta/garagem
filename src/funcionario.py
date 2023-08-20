@@ -1,6 +1,7 @@
 from pessoa import Pessoa
 import customtkinter
 
+
 class Funcionario(Pessoa):
     def __init__(self):
         super().__init__()
